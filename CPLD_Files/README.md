@@ -1,0 +1,1 @@
+These are the files required to program the three CPLDs in CERBERUS 2100™. The .jed files are the ones the programmer requires. The .PLD files are the readable design files used to generate the .jed files. Unless you are studying or changing the design, you do not need the .PLD files.
