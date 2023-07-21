@@ -1,0 +1,258 @@
+Name      FATSPACER; /** Serial to PArallel ControllER for CERBERUS 2100 **/
+Partno    ATF1508AS;
+Date      26/June/2023;
+Revision  Release 1.0;
+Designer  Bernardo Kastrup;
+Company   The Byte Attic;
+Assembly  None;
+Location  The Netherlands;
+Device    f1508isptqfp100;
+
+
+PROPERTY ATMEL {POWER_RESET = OFF};
+PROPERTY ATMEL {PIN_KEEP = ON};
+PROPERTY ATMEL {PREASSIGN = KEEP};
+
+
+/** Use NO compiler minimization or optimization in WinCUPL!                                   **/
+/** If WinCUPL fails to generate a .fit and .jed file, go to the directory where the .pld file **/
+/** is located and type: "fit1508 FATSPACER.tt2 -CUPL -device P1508T100 -JTAG ON"              **/
+/** Provided AS-IS, without guarantees of any kind                                             **/
+/** This is NOT a commercial product and has not been exhaustively tested                      **/
+
+
+/**************/
+/** I/O pins **/
+/**************/
+Pin [75,72..67,65..63,61,60,58..55,76..81,83,84] = [SLRO0..23]; /** Shift Left Register Outputs          **/
+/** SLRO23..16 are the data bits, SLRO15..0 are the address bits, as per this mapping:                   **/
+/** 23, 22, 21, 20, 19, 18, 17, 16,  15,  14,  13,  12,  11,  10,  9,  8,  7,  6,  5,  4,  3,  2,  1,  0 **/
+/** D7, D6, D5, D4, D3, D2, D1, D0, A15, A14, A13, A12, A11, A10, A9, A8, A7, A6, A5, A4, A3, A2, A1, A0 **/
+
+
+/****************/
+/** INPUT pins **/
+/****************/
+pin 22  = RST; /** Global reset for SPACER **/
+/** From the oscillator **/
+pin 87 = CLK;  /** Clock input from the buffer **/
+/** From the dual-ported memories **/
+pin 42 = VBUSY; /** From dual-ported video SRAM, active low **/
+pin 47 = CBUSY; /** From dual-ported character SRAM, active low **/
+/** From CAT **/
+pin 28 = SI; /** Serial Input from FAT-CAT, connected to pin SO in FAT-CAT **/
+Pin 29 = SC; /** Shift Clock, input from CAT **/
+Pin 30 = AOE; /** Address Output Enable for Shift Left Register, from FAT-CAT **/
+pin 31 = RWCAT; /** R/!W signal from FAT-CAT **/
+pin 32 = LD; /** Latch Data signal from FAT-CAT to acquire a byte from data bus **/
+Pin 35 = CPUSLC; /** CPU SeLeCt, input from FAT-CAT: 1 = Z80, 0 = 6502 **/
+Pin 36 = CPUIRQ; /** CPU Interrupt ReQuest, from FAT-CAT **/
+pin 37 = CPUGO; /** To !pause/continue CPU processing, from FAT-CAT **/
+pin 40 = CPURST; /** To reset the CPU, from FAT-CAT **/
+pin 33 = CPUSPD; /** Defines clock frequency for CPUs, from FAT-CAT **/
+/** From the CPUs **/
+pin 93 = RWB6502; /** Rd/!Wr bit signal from the 6502 **/
+pin 5  = RDZ80; /** !RD signal from the Z80 **/
+pin 2  = WRZ80; /** !WR signal from the Z80 **/
+pin 6  = MREQZ80; /** Memory REQuest from Z80, indicates address on address bus is stable **/
+/** Input signals from the expansion slot or from FAT-CAT **/
+Pin 1  = XBUSACK; /** Signal from CAT acknowledging that the buses are now available to the expansion slot **/
+Pin 14 = XIN; /** Unused input signal from the expansion slot **/
+Pin 17 = XWR; /** Write strobe from expansion to system memory **/
+Pin 19 = XRD; /** Read strobe from expansion to system memory **/
+Pin 90 = XE; /** Expansion enable input, signaling that the expansion is driving the buses with stable values **/
+
+
+/*****************/
+/** OUTPUT pins **/
+/*****************/
+pin 41 = BE; /** Buffer Enable, to hold the input clock (CLK) during power up **/
+/** For FAT-CAT **/
+pin 27 = SO; /** Serial Output for FAT-CAT, connected to pin SI in CAT **/
+pin 25 = CATCLK; /** Clock output for FAT-CAT **/
+/** RW signals for the memories **/
+pin 45 = RWVM; /** Read/!Write signal for VMEM **/
+pin 49 = RWCM; /** Read/!Write signal for CMEM **/
+pin 46 = OE; /** !Output Enable for all memories **/
+pin 53 = WELM; /** !Write Enable signal for LMEM **/
+pin 50 = WEHM; /** !Write Enable signal for HMEM **/
+/** Chip Enable signals for the memories **/
+pin 44 = CEVM; /** !Chip Enable signal for Character Memory **/
+pin 48 = CECM; /** !Chip Enable signal for Video Memory **/
+pin 54 = CELM; /** !Chip Enable signal for Low Memory **/
+pin 52 = CEHM; /** !Chip Enable signal for High Memory **/
+/** For the CPUs **/
+pin 23 = CLK6502; /** CLocK for the 6502 **/
+pin 92 = BE6502; /** Bus Enable signal for the 6502 **/
+pin 97 = RDY6502; /** ReaDY signal for 6502 **/
+pin 94 = NMIB6502; /** !NMI signal for the 6502 **/
+pin 96 = RST6502; /** !Reset the 6502 **/
+pin 99 = BUSREQZ80; /** !BUS REQuest signal for the Z80 **/
+pin 24 = CLKZ80; /** CLocK for the Z80 **/
+pin 7  = NMIZ80; /** !Non-Maskable Interrupt request for Z80 **/
+pin 98 = RSTZ80; /** !Reset the Z80 **/
+pin 100 = WAITZ80; /** !WAIT signal for the Z80 **/
+/** Output signals to the expansion slot **/
+Pin 16 = XCLK; /** Clock output to the expansion slot **/
+Pin 20 = XSLC; /** Selects expansion slot depending on address bus contents **/
+
+
+/*****************************************/
+/** Free pins, can be inputs or outputs **/
+/*****************************************/
+pin 21 = FREE; /** Connected to FAT-CAT **/
+
+
+/*******************/
+/** Buried states **/
+/*******************/
+Pinnode = DELAY;      /** Internal delay state useful for controling the 6502 **/
+Pinnode = [C1..0];    /** Internal states of the clock divider counter **/
+Pinnode = [SLR0..23]; /** Shift Left Register internal states, defined separately to SLRO0..23 **/
+                      /** so as to circumvent a bug in the CUPL software. It ensures the shif register **/
+                      /** uses the output of the flip-flops, instead of the .io signal after the buffers. **/
+Pinnode = [SRR0..7];  /** Shift Right Register internal states **/
+
+
+/***********************************************/
+/** Enable the buffer (74HC244) upon power up **/
+/***********************************************/
+BE = 'b'1;
+
+
+/*****************************/
+/** Memory management logic **/
+/*****************************/
+
+/** First, the Chip Enable (CE) signals for the four memories, which are address-dependent. **/
+/** The internal variable ENABLE below is meant to force the CE signals to wait until the address bus is stable. **/
+/** The first product term is for CAT, the second for the 6502, the third for the Z80, and the fourth for the expansion. **/
+/** It's assumed that XE will only be pulled low when the address bus is stable anyway, so we don't need it here. **/
+/** Moreover, adding !XE as a condition below would make the 'sniff mode' impossible for the expansion card, as it **/
+/** would constantly 'enable' everything all the time. **/
+ENABLE = AOE # (!CPUSLC & CPUGO) # !MREQZ80 # !XBUSACK;
+
+/** BELOW: The .io suffix corresponds to the content of the bus line attached to the respective pin **/
+/** REMEMBER: chip enable signals are active low **/
+CEVM = !( SLRO15.io &   SLRO14.io & SLRO13.io & SLRO12.io  &  SLRO11.io & ENABLE); /** i.e. A15 & A14 & A13 etc. **/
+CECM = !( SLRO15.io &   SLRO14.io & SLRO13.io & SLRO12.io  & !SLRO11.io & ENABLE);
+CEHM = !( SLRO15.io & !(SLRO14.io & SLRO13.io & SLRO12.io) &              ENABLE);
+CELM = !(!SLRO15.io &                                                     ENABLE);
+
+/** Now, the Read (including Output Enable) and Write (including Write Enable) signals for the four memories **/
+/** The equations are self-explanatory. CLK6502 is ANDed with RWB6502 to shorten the write pulse and prevent miswrites. **/
+RWVM = !((!RWCAT # (!RWB6502 & CLK6502) # !WRZ80 # !XWR) & !CEVM);
+RWCM = !((!RWCAT # (!RWB6502 & CLK6502) # !WRZ80 # !XWR) & !CECM);
+WEHM = !((!RWCAT # (!RWB6502 & CLK6502) # !WRZ80 # !XWR) & !CEHM);
+WELM = !((!RWCAT # (!RWB6502 & CLK6502) # !WRZ80 # !XWR) & !CELM);
+
+/** Now we need to use AOE, CPUGO and CPUSLC in the equation for OE because RWCAT and RWB6502 are always pulled high **/
+OE   = !((RWCAT & AOE) # (RWB6502 & CLK6502 & CPUGO & !CPUSLC) # !RDZ80 # (!XRD & !XBUSACK & !XE));
+
+/** Now the eXpansion SeLeCt signal, XSLC, which strobes low when the high-memory address $EFFE (Xmail) is written to. **/
+/** ATTENTION: the expansion card should NOT use video or character memory, as the expansion protocol ignores **/
+/** the !BUSY lines from these memories, which could lead to miswrites. **/
+XSLC = !((SLRO15.io & SLRO14.io & SLRO13.io & !SLRO12.io & SLRO11.io & SLRO10.io & SLRO9.io &  SLRO8.io &
+          SLRO7.io  & SLRO6.io  & SLRO5.io  &  SLRO4.io  & SLRO3.io  & SLRO2.io  & SLRO1.io & !SLRO0.io) &
+         (!RWCAT # (!RWB6502 & CLK6502) # !WRZ80));
+
+/** Finally, some internal signals to manage DP memory contention **/
+PAUSECAT  = !RWCAT & (!VBUSY # !CBUSY);             /** Pause CAT if it's writing and a DP memory flags BUSY **/
+PAUSE6502 = !RWB6502 & CLK6502 & (!VBUSY # !CBUSY); /** Promptly pause 6502 if it's trying to write and DP mem is BUSY **/
+PAUSEZ80  = (!MREQZ80 & RDZ80) & (!VBUSY # !CBUSY); /** Pause Z80 if it's accessing memory and NOT reading, **/
+                                                    /** and then a DP memory flags BUSY **/
+                                                    /** (!WRZ80 goes active too late, so need to use !MREQZ80 **/
+                                                    /**  ANDed with RDZ80 instead) **/
+
+
+/***********************/
+/** CPU control logic **/
+/***********************/
+
+/** First the 6502 **/
+DELAY.d    =  BE6502;         /** DELAY latches the current state of BE6502... **/
+DELAY.ck   = !CLK6502;        /** On the next falling edge of the 6502's clock, creating a one-cycle delay line **/
+DELAY.ar   =  RDY6502 # RST;  /** The delay line is reset while the 6502 is running (i.e. RDY6502 = 1), so the... **/
+                              /** 6502 can never be released less than 1/2 cycle after being halted. **/
+
+BE6502.d   = !((CPUSLC # !CPUGO) & !RDY6502);  /** Disable 6502's buses if 6502 is not selected or not GO, provided... **/
+                                               /** ...that the 6502 is already halted. Otherwise enable them. **/
+BE6502.ck  = !CLK6502;                         /** But do so only on the next falling edge of the 6502's clock **/
+BE6502.ap  = !CPUSLC & CPUGO;                  /** If 6502 is selected and GO, enable its buses promptly, asynchronously **/
+BE6502.ar  =  RST;                             /** This is just the default reset condition **/
+
+RDY6502.d  = !CPUSLC & CPUGO & !PAUSE6502 & DELAY;/** Release 6502 if it is selected, GO, not pausing, and its buses **/
+                                                  /** have already been enabled for at least one clock cycle (DELAY) **/
+                                                  /** Otherwise halt the 6502, or keep it halted, as the case may be **/
+RDY6502.ck =  CLK6502;                            /** But do so only on the next rising edge of the 6502's own clock **/
+RDY6502.ar =  PAUSE6502 # RST;                    /** Promptly halt the 6502 aynchronously if PAUSE6502 is asserted  **/
+
+/** The lines above mean the following:                                                                                **/
+/** The 6502 can be asynchronously halted (RDY6502 = 0) as soon as PAUSE6502 is asserted by one of the DP memories.    **/
+/** Once halted, the 6502 can only be released again (RDY6502 = 1) synchronously, on the next RISING edge of its clock.**/
+/** The 6502's buses can be asynchronously enabled (BE6502 = 1) as soon as CAT asserts CPUGO (with !CPUSLC).           **/
+/** Once enabled, the 6502's buses can only be disabled (BE6502 = 0) synchronously, on the next FALLING edge of clock. **/
+/** CAT can only halt the 6502 (by making e.g. CPUGO = 0) synchronously, on a RISING edge of the 6502's clock.         **/
+/** CAT can only disable the 6502's buses (by making e.g. CPUGO = 0) synchronously, on the next FALLING edge of clock. **/
+/** This way, there is always a half clock cycle between CAT's halting the 6502 and disabling its buses, which gives   **/
+/** the 6502 enough time to complete any ongoing memory access. Notice that the 6502's buses can NEVER be disabled     **/
+/** while the 6502 is running; only if the 6502 is already halted (RDY6502 = 0) can SPACER make BE6502 = 0.            **/
+/** Similarly, when CAT releases the 6502 (by making CPUGO = 1) after a halt period, the circuit above ensures that    **/
+/** the 6502's buses have already been re-enabled for at least one clock cycle before the 6502 is actually released    **/
+/** (i.e. by making RDY6502 = 1). This is done by delaying recognition that the buses are enabled (with the DELAY      **/
+/** state). The idea is to prevent the 6502 from trying to access memory before its buses are ready for it. In         **/
+/** addition, the delay state has a second job: it is reset while the 6502 is running (i.e. RDY6502 = 1), so the 6502  **/
+/** can never be released less than 1/2 cycle after being halted.                                                      **/
+
+NMIB6502   = !(!CPUSLC  &  CPUIRQ);            /** !Interrupt 6502 if it is selected and CAT wants to interrupt it **/
+RST6502    = !(!CPUSLC  &  CPURST);            /** !Reset the 6502 if it is selected and CAT wants to reset it **/
+
+/** Now the Z80 **/
+BUSREQZ80  = !(!CPUSLC  # !CPUGO);             /** !Request buses from Z80 if the latter is not selected or is not GO **/
+WAITZ80    = !( CPUSLC  &  CPUGO  & PAUSEZ80); /** !Wait if Z80 is selected and GO, but there is a PAUSE active **/
+NMIZ80     = !( CPUSLC  &  CPUIRQ);            /** !Interrupt the Z80 if it's selected and CAT wants to interrupt it*/
+RSTZ80     = !( CPUSLC  &  CPURST);            /** !Reset the Z80 if it's selected and CAT wants to reset it **/
+
+
+/****************************/
+/** Clock management logic **/
+/****************************/
+
+/** BELOW: Clock divider based on a counter (using T flip-flops to count) **/
+C1.t = C0;
+C0.t = 'b'1;
+[C1..0].ck = CLK;                           /** CLK is the input from oscillator, running at 16MHz **/
+[C1..0].ar = RST;                           /** Global asynchronous reset also resets this counter **/
+
+/** Now to the three separate clocks **/
+RAWCPUCLK = (!CPUSPD & C1) # (CPUSPD & C0); /** An internal variable that selects the CPU clock speed, used below **/
+XCLK      =   RAWCPUCLK;                    /** Clock for the expanion slot **/
+CLK6502   =  !CPUSLC & RAWCPUCLK;           /** Provide clock to 6502 only if the latter is selected **/
+CLKZ80    =   CPUSLC & RAWCPUCLK;           /** Provide clock to Z80 only if the latter is selected **/
+CATCLK    =  !PAUSECAT & CLK;               /** Withdraw clock from CAT if the latter is writing to a BUSY DP memory **/
+
+
+/*********************/
+/** Shift Registers **/
+/*********************/
+[SLR0..23].ck = SC;
+[SLR0..23].ar = RST;
+[SLR0..23].d  = [SLR1..23, SI]; /** Left-shifter **/
+
+[SLRO15..0].oe  =  AOE   & !CPUGO; /** These are the address bits **/
+[SLRO23..16].oe = !RWCAT & !CPUGO; /** These are the data bits **/
+[SLRO0..23] = [SLR0..23];          /** The compiler should get rid of this redundancy **/
+
+[SRR0..7].ck = SC;
+[SRR0..7].ar = RST;
+/** Right-shifter **/
+SRR7.d = (LD & SLRO23.io) # (!LD & SRR6);
+SRR6.d = (LD & SLRO22.io) # (!LD & SRR5);
+SRR5.d = (LD & SLRO21.io) # (!LD & SRR4);
+SRR4.d = (LD & SLRO20.io) # (!LD & SRR3);
+SRR3.d = (LD & SLRO19.io) # (!LD & SRR2);
+SRR2.d = (LD & SLRO18.io) # (!LD & SRR1);
+SRR1.d = (LD & SLRO17.io) # (!LD & SRR0);
+SRR0.d = (LD & SLRO16.io) # (!LD & 'b'0);
+
+SO = SRR7;
