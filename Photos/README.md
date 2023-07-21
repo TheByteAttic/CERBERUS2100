@@ -1,0 +1,1 @@
+Photos of a correctly assembled CERBERUS 2100 unit. If you are a journalist, tech writer, or otherwise a member of the media writing about CERBERUS 2100, please feel free to use these photos as you wish, without having to ask me for explicit permission.
