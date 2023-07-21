@@ -1,0 +1,1186 @@
+Atmel ATF1508AS Fitter Version 1.8.7.8 ,running Mon Jun 26 16:23:34 2023
+
+
+fit1508 FATSPACER.tt2 -CUPL -device P1508T100 -JTAG ON
+
+
+****** Initial fitting strategy and property ******
+ Pla_in_file = FATSPACER.tt2
+ Pla_out_file = FATSPACER.tt3
+ Jedec_file = FATSPACER.jed
+ Vector_file = FATSPACER.tmv
+ verilog_file = FATSPACER.vt
+ Time_file = 
+ Log_file = FATSPACER.fit
+ err_file = 
+ Device_name = TQFP100
+ Module_name = 
+ Package_type = TQFP
+ Preassign_file = 
+ Property_file = 
+ Sleep_mode = 
+ Preassignment = 
+ Security_mode = OFF
+ Pin_keep_mode = ON
+ Dedicated_input_clock = 
+ Dedicated_input_reset = 
+ Dedicated_input_oe = 
+ supporter = CUPL
+ optimize = ON
+ Soft_buffer = 
+ Xor_synthesis = OFF
+ Foldback_logic =  on
+ Expander = 
+ Cascade_logic = OFF
+ Dedicated_input = 
+ Output_fast = OFF
+ *******************************
+ Power down pin 1 = OFF
+ Power down pin 2 = OFF
+ power_reset = OFF
+ JTAG = ON
+ TDI pullup = OFF
+ TMS pullup = OFF
+ MC_power = OFF
+ Open_collector = OFF
+ ITD0 = ON
+ ITD1 = ON
+ ITD2 = ON
+ Fast_inlatch = off
+ *******************************
+---------------------------------------------------------
+ Fitter_Pass 1, Preassign = KEEP, LOGIC_DOUBLING : OFF 
+ ... 
+
+Performing global Output Enable pin assignments ...
+
+Performing global pin assignments ...
+--------------------------------------
+
+
+
+Final global control pins assignment (if applicable)...
+-------------------------------------------------------
+CLK assigned to pin  87
+
+
+
+Performing input pin pre-assignments ...
+------------------------------------
+XE assigned to pin  90
+CLK assigned to pin  87
+RDY6502.AR equation needs patching.
+1 control eqution need patching
+
+Attempt to place floating signals ...
+------------------------------------
+WRZ80 is placed at pin 2 (MC 1)
+XBUSACK is placed at pin 1 (MC 3)
+C0 is placed at feedback node 603 (MC 3)
+RDY6502.AR is placed at feedback node 604 (MC 4)
+WAITZ80 is placed at pin 100 (MC 5)
+BUSREQZ80 is placed at pin 99 (MC 6)
+DELAY is placed at feedback node 607 (MC 7)
+RSTZ80 is placed at pin 98 (MC 8)
+RDY6502 is placed at pin 97 (MC 9)
+SRR2 is placed at feedback node 610 (MC 10)
+RST6502 is placed at pin 96 (MC 11)
+SRR4 is placed at feedback node 612 (MC 12)
+NMIB6502 is placed at pin 94 (MC 13)
+RWB6502 is placed at pin 93 (MC 14)
+SRR3 is placed at feedback node 614 (MC 14)
+SRR1 is placed at feedback node 615 (MC 15)
+FB_332 is placed at foldback expander node 315 (MC 15)
+BE6502 is placed at pin 92 (MC 16)
+SLR10 is placed at feedback node 617 (MC 17)
+SLR6 is placed at feedback node 618 (MC 18)
+SLR9 is placed at feedback node 619 (MC 19)
+SLR4 is placed at feedback node 620 (MC 20)
+SLR11 is placed at feedback node 621 (MC 21)
+SLR8 is placed at feedback node 622 (MC 22)
+SLR2 is placed at feedback node 623 (MC 23)
+SLR7 is placed at feedback node 624 (MC 24)
+SLR5 is placed at feedback node 625 (MC 25)
+SLR3 is placed at feedback node 626 (MC 26)
+NMIZ80 is placed at pin 7 (MC 27)
+SLR1 is placed at feedback node 628 (MC 28)
+MREQZ80 is placed at pin 6 (MC 29)
+SLR0 is placed at feedback node 629 (MC 29)
+RDZ80 is placed at pin 5 (MC 30)
+SRR0 is placed at feedback node 630 (MC 30)
+SRR6 is placed at feedback node 631 (MC 31)
+TDI is placed at pin 4 (MC 32)
+SRR5 is placed at feedback node 632 (MC 32)
+CATCLK is placed at pin 25 (MC 33)
+CLKZ80 is placed at pin 24 (MC 35)
+CLK6502 is placed at pin 23 (MC 37)
+RST is placed at pin 22 (MC 38)
+XSLC is placed at pin 20 (MC 41)
+XRD is placed at pin 19 (MC 43)
+XWR is placed at pin 17 (MC 45)
+XCLK is placed at pin 16 (MC 46)
+TMS is placed at pin 15 (MC 48)
+CPUGO is placed at pin 37 (MC 49)
+CPUIRQ is placed at pin 36 (MC 51)
+C1 is placed at feedback node 651 (MC 51)
+SLR23 is placed at feedback node 652 (MC 52)
+CPUSLC is placed at pin 35 (MC 53)
+SLR20 is placed at feedback node 653 (MC 53)
+CPUSPD is placed at pin 33 (MC 54)
+SLR22 is placed at feedback node 654 (MC 54)
+SLR21 is placed at feedback node 655 (MC 55)
+LD is placed at pin 32 (MC 56)
+SLR18 is placed at feedback node 656 (MC 56)
+RWCAT is placed at pin 31 (MC 57)
+SLR19 is placed at feedback node 657 (MC 57)
+SLR17 is placed at feedback node 658 (MC 58)
+AOE is placed at pin 30 (MC 59)
+SLR16 is placed at feedback node 659 (MC 59)
+SLR15 is placed at feedback node 660 (MC 60)
+SC is placed at pin 29 (MC 61)
+SLR14 is placed at feedback node 661 (MC 61)
+SI is placed at pin 28 (MC 62)
+SLR13 is placed at feedback node 662 (MC 62)
+SLR12 is placed at feedback node 663 (MC 63)
+SO is placed at pin 27 (MC 64)
+CPURST is placed at pin 40 (MC 65)
+BE is placed at pin 41 (MC 67)
+VBUSY is placed at pin 42 (MC 69)
+CEVM is placed at pin 44 (MC 70)
+RWVM is placed at pin 45 (MC 72)
+OE is placed at pin 46 (MC 73)
+CBUSY is placed at pin 47 (MC 75)
+CECM is placed at pin 48 (MC 77)
+RWCM is placed at pin 49 (MC 78)
+WEHM is placed at pin 50 (MC 80)
+CEHM is placed at pin 52 (MC 81)
+WELM is placed at pin 53 (MC 83)
+CELM is placed at pin 54 (MC 85)
+SLRO15 is placed at pin 55 (MC 86)
+SLRO14 is placed at pin 56 (MC 88)
+SLRO13 is placed at pin 57 (MC 89)
+SLRO12 is placed at pin 58 (MC 91)
+SLRO11 is placed at pin 60 (MC 93)
+SLRO10 is placed at pin 61 (MC 94)
+TCK is placed at pin 62 (MC 96)
+SLRO9 is placed at pin 63 (MC 97)
+SLRO8 is placed at pin 64 (MC 99)
+SLRO7 is placed at pin 65 (MC 101)
+SLRO6 is placed at pin 67 (MC 102)
+SLRO5 is placed at pin 68 (MC 104)
+SLRO4 is placed at pin 69 (MC 105)
+SLRO3 is placed at pin 70 (MC 107)
+SLRO2 is placed at pin 71 (MC 109)
+SLRO1 is placed at pin 72 (MC 110)
+TDO is placed at pin 73 (MC 112)
+SLRO0 is placed at pin 75 (MC 113)
+SLRO16 is placed at pin 76 (MC 115)
+SLRO17 is placed at pin 77 (MC 117)
+SLRO18 is placed at pin 78 (MC 118)
+SLRO19 is placed at pin 79 (MC 120)
+SLRO20 is placed at pin 80 (MC 121)
+SLRO21 is placed at pin 81 (MC 123)
+SLRO22 is placed at pin 83 (MC 125)
+SLRO23 is placed at pin 84 (MC 126)
+
+                                                                                             
+                                                                                             
+                                                                                             
+                                                                                             
+                      B                                                                      
+                      U         N                                                            
+                    W S   R R   M R                                                          
+                    A R R D S   I W B               S S   S S S S S S                        
+                    I E S Y T   B B E               L L   L L L L L L                        
+                    T Q T 6 6   6 6 6               R R   R R R R R R                        
+                    Z Z Z 5 5 G 5 5 5 V       C G   O O V O O O O O O                        
+                    8 8 8 0 0 N 0 0 0 C X     L N   2 2 C 2 2 1 1 1 1                        
+                    0 0 0 2 2 D 2 2 2 C E     K D   3 2 C 1 0 9 8 7 6                        
+                  ------------------------------------------------------                     
+                 / 100  98  96  94  92  90  88  86  84  82  80  78  76  \                   
+                /     99  97  95  93  91  89  87  85  83  81  79  77     \                  
+       XBUSACK | 1                                                     75 | SLRO0            
+         WRZ80 | 2                                                     74 | GND              
+           VCC | 3                                                     73 | TDO              
+           TDI | 4                                                     72 | SLRO1            
+         RDZ80 | 5                                                     71 | SLRO2            
+       MREQZ80 | 6                                                     70 | SLRO3            
+        NMIZ80 | 7                                                     69 | SLRO4            
+               | 8                                                     68 | SLRO5            
+               | 9                                                     67 | SLRO6            
+               | 10                                                    66 | VCC              
+           GND | 11                                                    65 | SLRO7            
+               | 12                     ATF1508                        64 | SLRO8            
+               | 13                  100-Lead TQFP                     63 | SLRO9            
+               | 14                                                    62 | TCK              
+           TMS | 15                                                    61 | SLRO10           
+          XCLK | 16                                                    60 | SLRO11           
+           XWR | 17                                                    59 | GND              
+           VCC | 18                                                    58 | SLRO12           
+           XRD | 19                                                    57 | SLRO13           
+          XSLC | 20                                                    56 | SLRO14           
+               | 21                                                    55 | SLRO15           
+           RST | 22                                                    54 | CELM             
+       CLK6502 | 23                                                    53 | WELM             
+        CLKZ80 | 24                                                    52 | CEHM             
+        CATCLK | 25                                                    51 | VCC              
+                \     27  29  31  33  35  37  39  41  43  45   47  49    /                  
+                 \  26  28  30  32  34  36  38  40  42  44  46  48   50 /                   
+                  ------------------------------------------------------                     
+W                   G S S S A R L C V C C C G V C B V G C R O C C R                          
+E                   N O I C O W D P C P P P N C P E B N E W E B E W                          
+H                   D       E C   U C U U U D C U   U D V V   U C C                          
+M                             A   S   S I G     R   S   M M   S M M                          
+                              T   P   L R O     S   Y         Y                              
+                                  D   C Q       T                                            
+
+
+
+VCC = Supply Voltage pin which must be connected to (5.0V or 3.0V)
+
+GND = GND pin which must be connected to ground
+
+TMS,TDI,TDO,TDI = JTAG pins which must reserved for the JTAG interface
+
+NC = Unused I/O pins which must be unconnected on the board
+
+Universal-Interconnect-Multiplexer assignments
+------------------------------------------------
+FanIn assignment for block A [25]
+{
+BE6502,
+CLK6502,CPUSLC,CPUGO,CBUSY,CPURST,CPUIRQ,
+DELAY,
+LD,
+MREQZ80,
+RDY6502,RDZ80,RWB6502,RST,RDY6502.AR,
+SLRO20,SLRO19,SRR3,SRR0,SC,SLRO17,SLRO18,SRR2,SRR1,
+VBUSY,
+}
+Multiplexer assignment for block A
+RDY6502			(MC3	P)   : MUX 0		Ref (A9p)
+CLK6502			(MC9	P)   : MUX 1		Ref (C37p)
+SLRO20			(MC13	P)   : MUX 2		Ref (H121p)
+CPUSLC			(MC15	P)   : MUX 3		Ref (D53p)
+RDZ80			(MC23	P)   : MUX 4		Ref (B30p)
+CPUGO			(MC14	P)   : MUX 5		Ref (D49p)
+CBUSY			(MC21	P)   : MUX 6		Ref (E75p)
+CPURST			(MC25	P)   : MUX 7		Ref (E65p)
+RWB6502			(MC16	P)   : MUX 8		Ref (A14p)
+SLRO19			(MC12	P)   : MUX 9		Ref (H120p)
+SRR3			(MC5	FB)  : MUX 11		Ref (A14fb)
+CPUIRQ			(MC24	P)   : MUX 13		Ref (D51p)
+MREQZ80			(MC18	P)   : MUX 14		Ref (B29p)
+LD			(MC19	P)   : MUX 15		Ref (D56p)
+RST			(MC17	P)   : MUX 17		Ref (C38p)
+SRR0			(MC8	FB)  : MUX 19		Ref (B30fb)
+SC			(MC20	P)   : MUX 20		Ref (D61p)
+SLRO17			(MC10	P)   : MUX 21		Ref (H117p)
+VBUSY			(MC22	P)   : MUX 23		Ref (E69p)
+DELAY			(MC2	FB)  : MUX 24		Ref (A7fb)
+SLRO18			(MC11	P)   : MUX 25		Ref (H118p)
+SRR2			(MC4	FB)  : MUX 29		Ref (A10fb)
+BE6502			(MC7	P)   : MUX 32		Ref (A16p)
+SRR1			(MC6	FB)  : MUX 37		Ref (A15fb)
+RDY6502.AR		(MC1	FB)  : MUX 38		Ref (A4fb)
+
+FanIn assignment for block B [22]
+{
+CPUSLC,CPUIRQ,
+LD,
+RST,
+SLR9,SLR12,SLR6,SLR10,SLR3,SLR7,SLR5,SLR4,SRR4,SLRO22,SLRO16,SLRO21,SLR11,SLR2,SRR5,SLR8,SC,SLR1,
+}
+Multiplexer assignment for block B
+SLR9			(MC4	FB)  : MUX 0		Ref (B19fb)
+LD			(MC20	P)   : MUX 1		Ref (D56p)
+CPUSLC			(MC18	P)   : MUX 3		Ref (D53p)
+SLR12			(MC14	FB)  : MUX 5		Ref (D63fb)
+SLR6			(MC3	FB)  : MUX 6		Ref (B18fb)
+RST			(MC19	P)   : MUX 7		Ref (C38p)
+CPUIRQ			(MC22	P)   : MUX 9		Ref (D51p)
+SLR10			(MC2	FB)  : MUX 10		Ref (B17fb)
+SLR3			(MC11	FB)  : MUX 11		Ref (B26fb)
+SLR7			(MC9	FB)  : MUX 12		Ref (B24fb)
+SLR5			(MC10	FB)  : MUX 17		Ref (B25fb)
+SLR4			(MC5	FB)  : MUX 20		Ref (B20fb)
+SRR4			(MC1	FB)  : MUX 21		Ref (A12fb)
+SLRO22			(MC17	P)   : MUX 22		Ref (H125p)
+SLRO16			(MC15	P)   : MUX 23		Ref (H115p)
+SLRO21			(MC16	P)   : MUX 26		Ref (H123p)
+SLR11			(MC6	FB)  : MUX 28		Ref (B21fb)
+SLR2			(MC8	FB)  : MUX 32		Ref (B23fb)
+SRR5			(MC13	FB)  : MUX 33		Ref (B32fb)
+SLR8			(MC7	FB)  : MUX 34		Ref (B22fb)
+SC			(MC21	P)   : MUX 36		Ref (D61p)
+SLR1			(MC12	FB)  : MUX 37		Ref (B28fb)
+
+FanIn assignment for block C [27]
+{
+C0,CLK6502,CBUSY,CPUSPD,C1,CPUSLC,CLK,
+RWCAT,RWB6502,
+SLRO15,SLRO4,SLRO11,SLRO8,SLRO3,SLRO7,SLRO1,SLRO10,SLRO5,SLRO12,SLRO14,SLRO0,SLRO13,SLRO2,SLRO6,SLRO9,
+VBUSY,
+WRZ80,
+}
+Multiplexer assignment for block C
+C0			(MC1	FB)  : MUX 0		Ref (A3fb)
+SLRO15			(MC4	P)   : MUX 1		Ref (F86p)
+SLRO4			(MC15	P)   : MUX 2		Ref (G105p)
+CLK6502			(MC2	P)   : MUX 3		Ref (C37p)
+SLRO11			(MC8	P)   : MUX 4		Ref (F93p)
+SLRO8			(MC11	P)   : MUX 5		Ref (G99p)
+SLRO3			(MC16	P)   : MUX 6		Ref (G107p)
+SLRO7			(MC12	P)   : MUX 7		Ref (G101p)
+SLRO1			(MC18	P)   : MUX 8		Ref (G110p)
+CBUSY			(MC24	P)   : MUX 10		Ref (E75p)
+VBUSY			(MC25	P)   : MUX 11		Ref (E69p)
+SLRO10			(MC9	P)   : MUX 14		Ref (F94p)
+SLRO5			(MC14	P)   : MUX 15		Ref (G104p)
+SLRO12			(MC7	P)   : MUX 16		Ref (F91p)
+SLRO14			(MC5	P)   : MUX 17		Ref (F88p)
+RWCAT			(MC22	P)   : MUX 18		Ref (D57p)
+SLRO0			(MC19	P)   : MUX 19		Ref (H113p)
+SLRO13			(MC6	P)   : MUX 20		Ref (F89p)
+WRZ80			(MC23	P)   : MUX 21		Ref (A1p)
+RWB6502			(MC21	P)   : MUX 22		Ref (A14p)
+SLRO2			(MC17	P)   : MUX 24		Ref (G109p)
+SLRO6			(MC13	P)   : MUX 25		Ref (G102p)
+SLRO9			(MC10	P)   : MUX 27		Ref (G97p)
+CPUSPD			(MC27	P)   : MUX 29		Ref (D54p)
+C1			(MC3	FB)  : MUX 30		Ref (D51fb)
+CPUSLC			(MC20	P)   : MUX 31		Ref (D53p)
+CLK			(MC26	FB)  : MUX 39		Ref (GCLK)
+
+FanIn assignment for block D [18]
+{
+C0,
+LD,
+RST,
+SLR18,SLR23,SLR16,SLR19,SI,SLR14,SLR22,SLR13,SLR21,SLR17,SC,SLRO23,SRR6,SLR20,SLR15,
+}
+Multiplexer assignment for block D
+SLR18			(MC7	FB)  : MUX 0		Ref (D56fb)
+LD			(MC16	P)   : MUX 1		Ref (D56p)
+SLR23			(MC3	FB)  : MUX 2		Ref (D52fb)
+SLR16			(MC10	FB)  : MUX 3		Ref (D59fb)
+SLR19			(MC8	FB)  : MUX 5		Ref (D57fb)
+C0			(MC1	FB)  : MUX 6		Ref (A3fb)
+SI			(MC18	P)   : MUX 10		Ref (D62p)
+SLR14			(MC12	FB)  : MUX 11		Ref (D61fb)
+SLR22			(MC5	FB)  : MUX 12		Ref (D54fb)
+SLR13			(MC13	FB)  : MUX 13		Ref (D62fb)
+SLR21			(MC6	FB)  : MUX 16		Ref (D55fb)
+RST			(MC15	P)   : MUX 17		Ref (C38p)
+SLR17			(MC9	FB)  : MUX 19		Ref (D58fb)
+SC			(MC17	P)   : MUX 20		Ref (D61p)
+SLRO23			(MC14	P)   : MUX 30		Ref (H126p)
+SRR6			(MC2	FB)  : MUX 31		Ref (B31fb)
+SLR20			(MC4	FB)  : MUX 34		Ref (D53fb)
+SLR15			(MC11	FB)  : MUX 39		Ref (D60fb)
+
+FanIn assignment for block E [21]
+{
+AOE,
+CLK6502,CPUGO,CEVM,CECM,CPUSLC,CEHM,
+MREQZ80,
+RDZ80,RWB6502,RWCAT,
+SLRO13,SLRO12,SLRO11,SLRO15,SLRO14,
+WRZ80,
+XBUSACK,XRD,XWR,XE,
+}
+Multiplexer assignment for block E
+RDZ80			(MC17	P)   : MUX 0		Ref (B30p)
+WRZ80			(MC16	P)   : MUX 1		Ref (A1p)
+SLRO13			(MC7	P)   : MUX 2		Ref (F89p)
+CLK6502			(MC1	P)   : MUX 3		Ref (C37p)
+CPUGO			(MC10	P)   : MUX 5		Ref (D49p)
+SLRO12			(MC8	P)   : MUX 6		Ref (F91p)
+XBUSACK			(MC18	P)   : MUX 7		Ref (A3p)
+RWB6502			(MC12	P)   : MUX 8		Ref (A14p)
+XRD			(MC21	P)   : MUX 10		Ref (C43p)
+SLRO11			(MC9	P)   : MUX 12		Ref (F93p)
+CEVM			(MC2	P)   : MUX 13		Ref (E70p)
+XWR			(MC19	P)   : MUX 14		Ref (C45p)
+CECM			(MC3	P)   : MUX 16		Ref (E77p)
+CPUSLC			(MC11	P)   : MUX 17		Ref (D53p)
+SLRO15			(MC5	P)   : MUX 19		Ref (F86p)
+CEHM			(MC4	P)   : MUX 25		Ref (F81p)
+RWCAT			(MC13	P)   : MUX 28		Ref (D57p)
+AOE			(MC14	P)   : MUX 30		Ref (D59p)
+MREQZ80			(MC15	P)   : MUX 32		Ref (B29p)
+SLRO14			(MC6	P)   : MUX 35		Ref (F88p)
+XE			(MC20	FB)  : MUX 38		Ref (OE2)
+
+FanIn assignment for block F [21]
+{
+AOE,
+CLK6502,CELM,CPUSLC,CPUGO,
+MREQZ80,
+RWCAT,RWB6502,
+SLRO13,SLRO14,SLR15,SLR10,SLRO15,SLR12,SLRO12,SLR13,SLR11,SLR14,
+WRZ80,
+XBUSACK,XWR,
+}
+Multiplexer assignment for block F
+CLK6502			(MC3	P)   : MUX 1		Ref (C37p)
+SLRO13			(MC11	P)   : MUX 2		Ref (F89p)
+SLRO14			(MC10	P)   : MUX 3		Ref (F88p)
+RWCAT			(MC16	P)   : MUX 6		Ref (D57p)
+XBUSACK			(MC20	P)   : MUX 7		Ref (A3p)
+SLR15			(MC4	FB)  : MUX 9		Ref (D60fb)
+SLR10			(MC1	FB)  : MUX 10		Ref (B17fb)
+SLRO15			(MC9	P)   : MUX 11		Ref (F86p)
+RWB6502			(MC15	P)   : MUX 12		Ref (A14p)
+CELM			(MC8	P)   : MUX 13		Ref (F85p)
+SLR12			(MC7	FB)  : MUX 19		Ref (D63fb)
+WRZ80			(MC19	P)   : MUX 21		Ref (A1p)
+SLRO12			(MC12	P)   : MUX 24		Ref (F91p)
+CPUSLC			(MC14	P)   : MUX 25		Ref (D53p)
+SLR13			(MC6	FB)  : MUX 27		Ref (D62fb)
+SLR11			(MC2	FB)  : MUX 28		Ref (B21fb)
+AOE			(MC17	P)   : MUX 30		Ref (D59p)
+MREQZ80			(MC18	P)   : MUX 32		Ref (B29p)
+CPUGO			(MC13	P)   : MUX 33		Ref (D49p)
+XWR			(MC21	P)   : MUX 34		Ref (C45p)
+SLR14			(MC5	FB)  : MUX 37		Ref (D61fb)
+
+FanIn assignment for block G [11]
+{
+AOE,
+CPUGO,
+SLR9,SLR3,SLR6,SLR5,SLR2,SLR4,SLR7,SLR8,SLR1,
+}
+Multiplexer assignment for block G
+SLR9			(MC2	FB)  : MUX 0		Ref (B19fb)
+SLR3			(MC8	FB)  : MUX 3		Ref (B26fb)
+SLR6			(MC1	FB)  : MUX 6		Ref (B18fb)
+SLR5			(MC7	FB)  : MUX 7		Ref (B25fb)
+SLR2			(MC5	FB)  : MUX 14		Ref (B23fb)
+AOE			(MC11	P)   : MUX 16		Ref (D59p)
+SLR4			(MC3	FB)  : MUX 20		Ref (B20fb)
+SLR7			(MC6	FB)  : MUX 22		Ref (B24fb)
+CPUGO			(MC10	P)   : MUX 23		Ref (D49p)
+SLR8			(MC4	FB)  : MUX 34		Ref (B22fb)
+SLR1			(MC9	FB)  : MUX 37		Ref (B28fb)
+
+FanIn assignment for block H [12]
+{
+AOE,
+CPUGO,
+RWCAT,
+SLR18,SLR22,SLR0,SLR20,SLR19,SLR23,SLR21,SLR16,SLR17,
+}
+Multiplexer assignment for block H
+SLR18			(MC6	FB)  : MUX 0		Ref (D56fb)
+SLR22			(MC4	FB)  : MUX 2		Ref (D54fb)
+SLR0			(MC1	FB)  : MUX 9		Ref (B29fb)
+SLR20			(MC3	FB)  : MUX 10		Ref (D53fb)
+AOE			(MC12	P)   : MUX 12		Ref (D59p)
+CPUGO			(MC10	P)   : MUX 15		Ref (D49p)
+RWCAT			(MC11	P)   : MUX 18		Ref (D57p)
+SLR19			(MC7	FB)  : MUX 23		Ref (D57fb)
+SLR23			(MC2	FB)  : MUX 24		Ref (D52fb)
+SLR21			(MC5	FB)  : MUX 34		Ref (D55fb)
+SLR16			(MC9	FB)  : MUX 35		Ref (D59fb)
+SLR17			(MC8	FB)  : MUX 39		Ref (D58fb)
+
+Creating JEDEC file FATSPACER.jed ...
+
+TQFP100 programmed logic:
+-----------------------------------
+BE = 1;
+
+BE6502.D = ((CPUGO & !CPUSLC)
+	# RDY6502.Q);
+
+BUSREQZ80 = (CPUGO & CPUSLC);
+
+C0.T = 1;
+
+C1.T = C0.Q;
+
+!CECM = ((!SLRO11.PIN & SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & !XBUSACK)
+	# (!SLRO11.PIN & SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & CPUGO & !CPUSLC)
+	# (!SLRO11.PIN & SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & AOE)
+	# (!SLRO11.PIN & SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & !MREQZ80));
+
+CATCLK = ((CLK & CBUSY & VBUSY)
+	# (CLK & RWCAT));
+
+CEHM = ((!AOE & MREQZ80 & XBUSACK & CPUSLC)
+	# (SLRO12.PIN & SLRO13.PIN & SLRO14.PIN)
+	# !SLRO15.PIN
+	# (!AOE & !CPUGO & MREQZ80 & XBUSACK));
+
+CELM = (SLRO15.PIN
+	# (!AOE & MREQZ80 & XBUSACK & !CPUGO)
+	# (!AOE & MREQZ80 & XBUSACK & CPUSLC));
+
+!CEVM = ((SLRO11.PIN & SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & !XBUSACK)
+	# (SLRO11.PIN & SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & CPUGO & !CPUSLC)
+	# (SLRO11.PIN & SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & AOE)
+	# (SLRO11.PIN & SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & !MREQZ80));
+
+CLK6502 = ((!CPUSLC & CPUSPD & C0.Q)
+	# (!CPUSLC & !CPUSPD & C1.Q));
+
+CLKZ80 = ((CPUSLC & CPUSPD & C0.Q)
+	# (CPUSLC & !CPUSPD & C1.Q));
+
+DELAY.D = BE6502.Q;
+
+!RST6502 = (CPURST & !CPUSLC);
+
+!NMIB6502 = (CPUIRQ & !CPUSLC);
+
+!NMIZ80 = (CPUIRQ & CPUSLC);
+
+!RSTZ80 = (CPURST & CPUSLC);
+
+SLR0.D = SLR1.Q;
+
+SLR1.D = SLR2.Q;
+
+SLR2.D = SLR3.Q;
+
+SLR3.D = SLR4.Q;
+
+SLR4.D = SLR5.Q;
+
+SLR5.D = SLR6.Q;
+
+SLR6.D = SLR7.Q;
+
+SLR7.D = SLR8.Q;
+
+SLR8.D = SLR9.Q;
+
+SLR9.D = SLR10.Q;
+
+SLR10.D = SLR11.Q;
+
+SLR11.D = SLR12.Q;
+
+SLR12.D = SLR13.Q;
+
+SLR13.D = SLR14.Q;
+
+SLR14.D = SLR15.Q;
+
+SLR15.D = SLR16.Q;
+
+SLR16.D = SLR17.Q;
+
+SLR17.D = SLR18.Q;
+
+SLR18.D = SLR19.Q;
+
+SLR20.D = SLR21.Q;
+
+SLR19.D = SLR20.Q;
+
+SLR21.D = SLR22.Q;
+
+SLR22.D = SLR23.Q;
+
+SLR23.D = SI;
+
+SLRO0 = SLR0.Q;
+
+SLRO1 = SLR1.Q;
+
+SLRO2 = SLR2.Q;
+
+SLRO3 = SLR3.Q;
+
+SLRO4 = SLR4.Q;
+
+SLRO5 = SLR5.Q;
+
+SLRO7 = SLR7.Q;
+
+SLRO6 = SLR6.Q;
+
+SLRO8 = SLR8.Q;
+
+SLRO10 = SLR10.Q;
+
+SLRO9 = SLR9.Q;
+
+SLRO11 = SLR11.Q;
+
+SLRO12 = SLR12.Q;
+
+SLRO13 = SLR13.Q;
+
+SLRO15 = SLR15.Q;
+
+SLRO14 = SLR14.Q;
+
+SLRO16 = SLR16.Q;
+
+SLRO17 = SLR17.Q;
+
+SLRO18 = SLR18.Q;
+
+SLRO20 = SLR20.Q;
+
+SLRO19 = SLR19.Q;
+
+SLRO21 = SLR21.Q;
+
+SLRO22 = SLR22.Q;
+
+SLRO23 = SLR23.Q;
+
+SRR0.D = (LD & SLRO16.PIN);
+
+SRR1.D = ((LD & SLRO17.PIN)
+	# (!LD & SRR0.Q));
+
+SRR2.D = ((LD & SLRO18.PIN)
+	# (!LD & SRR1.Q));
+
+SRR3.D = ((LD & SLRO19.PIN)
+	# (!LD & SRR2.Q));
+
+SRR4.D = ((LD & SLRO20.PIN)
+	# (!LD & SRR3.Q));
+
+SRR5.D = ((LD & SLRO21.PIN)
+	# (!LD & SRR4.Q));
+
+SRR6.D = ((LD & SLRO22.PIN)
+	# (!LD & SRR5.Q));
+
+SO.D = ((LD & SLRO23.PIN)
+	# (!LD & SRR6.Q));
+
+!WAITZ80 = ((CPUGO & CPUSLC & !MREQZ80 & RDZ80 & !CBUSY)
+	# (CPUGO & CPUSLC & !MREQZ80 & RDZ80 & !VBUSY));
+
+XCLK = ((!CPUSPD & C1.Q)
+	# (CPUSPD & C0.Q));
+
+!OE = ((CLK6502 & CPUGO & !CPUSLC & RWB6502)
+	# !RDZ80
+	# (AOE & RWCAT)
+	# (!XBUSACK & !XE & !XRD));
+
+RDY6502.D = ((CPUGO & !CPUSLC & DELAY.Q & !CLK6502)
+	# (CPUGO & !CPUSLC & DELAY.Q & RWB6502)
+	# (CPUGO & !CPUSLC & DELAY.Q & CBUSY & VBUSY));
+
+RWVM = (CEVM
+	# (RWCAT & WRZ80 & XWR & !CLK6502)
+	# (RWCAT & WRZ80 & XWR & RWB6502));
+
+RWCM = (CECM
+	# (RWCAT & WRZ80 & XWR & !CLK6502)
+	# (RWCAT & WRZ80 & XWR & RWB6502));
+
+!XSLC = ((!SLRO0.PIN & SLRO1.PIN & SLRO2.PIN & SLRO3.PIN & SLRO4.PIN & SLRO5.PIN & SLRO6.PIN & SLRO7.PIN & SLRO8.PIN & SLRO9.PIN & SLRO10.PIN & SLRO11.PIN & !SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & CLK6502 & !RWB6502)
+	# (!SLRO0.PIN & SLRO1.PIN & SLRO2.PIN & SLRO3.PIN & SLRO4.PIN & SLRO5.PIN & SLRO6.PIN & SLRO7.PIN & SLRO8.PIN & SLRO9.PIN & SLRO10.PIN & SLRO11.PIN & !SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & !RWCAT)
+	# (!SLRO0.PIN & SLRO1.PIN & SLRO2.PIN & SLRO3.PIN & SLRO4.PIN & SLRO5.PIN & SLRO6.PIN & SLRO7.PIN & SLRO8.PIN & SLRO9.PIN & SLRO10.PIN & SLRO11.PIN & !SLRO12.PIN & SLRO13.PIN & SLRO14.PIN & SLRO15.PIN & !WRZ80));
+
+WEHM = (CEHM
+	# (RWCAT & WRZ80 & XWR & !CLK6502)
+	# (RWCAT & WRZ80 & XWR & RWB6502));
+
+WELM = (CELM
+	# (RWCAT & WRZ80 & XWR & !CLK6502)
+	# (RWCAT & WRZ80 & XWR & RWB6502));
+
+!FB_332 = (!RDY6502.Q & !RST);
+
+BE6502.C = !CLK6502;
+
+BE6502.AR = RST;
+
+BE6502.AP = (CPUGO & !CPUSLC);
+
+C0.C = CLK;
+
+C0.AR = RST;
+
+C1.C = CLK;
+
+C1.AR = RST;
+
+DELAY.C = !CLK6502;
+
+DELAY.AR = FB_332;
+
+SLR0.C = SC;
+
+SLR0.AR = RST;
+
+SLR1.C = SC;
+
+SLR1.AR = RST;
+
+SLR2.C = SC;
+
+SLR2.AR = RST;
+
+SLR3.C = SC;
+
+SLR3.AR = RST;
+
+SLR4.C = SC;
+
+SLR4.AR = RST;
+
+SLR5.C = SC;
+
+SLR5.AR = RST;
+
+SLR6.C = SC;
+
+SLR6.AR = RST;
+
+SLR7.C = SC;
+
+SLR7.AR = RST;
+
+SLR8.C = SC;
+
+SLR8.AR = RST;
+
+SLR9.C = SC;
+
+SLR9.AR = RST;
+
+SLR10.C = SC;
+
+SLR10.AR = RST;
+
+SLR11.C = SC;
+
+SLR11.AR = RST;
+
+SLR12.C = SC;
+
+SLR12.AR = RST;
+
+SLR13.C = SC;
+
+SLR13.AR = RST;
+
+SLR14.C = SC;
+
+SLR14.AR = RST;
+
+SLR15.C = SC;
+
+SLR15.AR = RST;
+
+SLR16.C = SC;
+
+SLR16.AR = RST;
+
+SLR17.C = SC;
+
+SLR17.AR = RST;
+
+SLR18.C = SC;
+
+SLR18.AR = RST;
+
+SLR20.C = SC;
+
+SLR20.AR = RST;
+
+SLR19.C = SC;
+
+SLR19.AR = RST;
+
+SLR21.C = SC;
+
+SLR21.AR = RST;
+
+SLR22.C = SC;
+
+SLR22.AR = RST;
+
+SLR23.C = SC;
+
+SLR23.AR = RST;
+
+SLRO0.OE = (AOE & !CPUGO);
+
+SLRO1.OE = (AOE & !CPUGO);
+
+SLRO2.OE = (AOE & !CPUGO);
+
+SLRO3.OE = (AOE & !CPUGO);
+
+SLRO4.OE = (AOE & !CPUGO);
+
+SLRO5.OE = (AOE & !CPUGO);
+
+SLRO7.OE = (AOE & !CPUGO);
+
+SLRO6.OE = (AOE & !CPUGO);
+
+SLRO8.OE = (AOE & !CPUGO);
+
+SLRO10.OE = (AOE & !CPUGO);
+
+SLRO9.OE = (AOE & !CPUGO);
+
+SLRO11.OE = (AOE & !CPUGO);
+
+SLRO12.OE = (AOE & !CPUGO);
+
+SLRO13.OE = (AOE & !CPUGO);
+
+SLRO15.OE = (AOE & !CPUGO);
+
+SLRO14.OE = (AOE & !CPUGO);
+
+SLRO16.OE = (!CPUGO & !RWCAT);
+
+SLRO17.OE = (!CPUGO & !RWCAT);
+
+SLRO18.OE = (!CPUGO & !RWCAT);
+
+SLRO20.OE = (!CPUGO & !RWCAT);
+
+SLRO19.OE = (!CPUGO & !RWCAT);
+
+SLRO21.OE = (!CPUGO & !RWCAT);
+
+SLRO22.OE = (!CPUGO & !RWCAT);
+
+SLRO23.OE = (!CPUGO & !RWCAT);
+
+SRR0.C = SC;
+
+SRR0.AR = RST;
+
+SRR1.C = SC;
+
+SRR1.AR = RST;
+
+SRR2.C = SC;
+
+SRR2.AR = RST;
+
+SRR3.C = SC;
+
+SRR3.AR = RST;
+
+SRR4.C = SC;
+
+SRR4.AR = RST;
+
+SRR5.C = SC;
+
+SRR5.AR = RST;
+
+SRR6.C = SC;
+
+SRR6.AR = RST;
+
+SO.C = SC;
+
+SO.AR = RST;
+
+RDY6502.C = CLK6502;
+
+RDY6502.AR = ((CLK6502 & !RWB6502 & !VBUSY)
+	# RST
+	# (!CBUSY & CLK6502 & !RWB6502));
+
+
+TQFP100 Pin/Node Placement:
+------------------------------------
+Pin 1  = XBUSACK; /* MC 3 */
+Pin 2  = WRZ80; /* MC 1 */
+Pin 4  = TDI; /* MC 32 */
+Pin 5  = RDZ80; /* MC 30 */
+Pin 6  = MREQZ80; /* MC 29 */
+Pin 7  = NMIZ80; /* MC 27 */
+Pin 15 = TMS; /* MC 48 */ 
+Pin 16 = XCLK; /* MC 46 */ 
+Pin 17 = XWR; /* MC 45 */ 
+Pin 19 = XRD; /* MC 43 */ 
+Pin 20 = XSLC; /* MC 41 */ 
+Pin 22 = RST; /* MC 38 */ 
+Pin 23 = CLK6502; /* MC 37 */ 
+Pin 24 = CLKZ80; /* MC 35 */ 
+Pin 25 = CATCLK; /* MC 33 */ 
+Pin 27 = SO; /* MC 64 */ 
+Pin 28 = SI; /* MC 62 */ 
+Pin 29 = SC; /* MC 61 */ 
+Pin 30 = AOE; /* MC 59 */ 
+Pin 31 = RWCAT; /* MC 57 */ 
+Pin 32 = LD; /* MC 56 */ 
+Pin 33 = CPUSPD; /* MC 54 */ 
+Pin 35 = CPUSLC; /* MC 53 */ 
+Pin 36 = CPUIRQ; /* MC 51 */ 
+Pin 37 = CPUGO; /* MC 49 */ 
+Pin 40 = CPURST; /* MC 65 */ 
+Pin 41 = BE; /* MC 67 */ 
+Pin 42 = VBUSY; /* MC 69 */ 
+Pin 44 = CEVM; /* MC 70 */ 
+Pin 45 = RWVM; /* MC 72 */ 
+Pin 46 = OE; /* MC 73 */ 
+Pin 47 = CBUSY; /* MC 75 */ 
+Pin 48 = CECM; /* MC 77 */ 
+Pin 49 = RWCM; /* MC 78 */ 
+Pin 50 = WEHM; /* MC 80 */ 
+Pin 52 = CEHM; /* MC 81 */ 
+Pin 53 = WELM; /* MC 83 */ 
+Pin 54 = CELM; /* MC 85 */ 
+Pin 55 = SLRO15; /* MC 86 */ 
+Pin 56 = SLRO14; /* MC 88 */ 
+Pin 57 = SLRO13; /* MC 89 */ 
+Pin 58 = SLRO12; /* MC 91 */ 
+Pin 60 = SLRO11; /* MC 93 */ 
+Pin 61 = SLRO10; /* MC 94 */ 
+Pin 62 = TCK; /* MC 96 */ 
+Pin 63 = SLRO9; /* MC 97 */ 
+Pin 64 = SLRO8; /* MC 99 */ 
+Pin 65 = SLRO7; /* MC 101 */ 
+Pin 67 = SLRO6; /* MC 102 */ 
+Pin 68 = SLRO5; /* MC 104 */ 
+Pin 69 = SLRO4; /* MC 105 */ 
+Pin 70 = SLRO3; /* MC 107 */ 
+Pin 71 = SLRO2; /* MC 109 */ 
+Pin 72 = SLRO1; /* MC 110 */ 
+Pin 73 = TDO; /* MC 112 */ 
+Pin 75 = SLRO0; /* MC 113 */ 
+Pin 76 = SLRO16; /* MC 115 */ 
+Pin 77 = SLRO17; /* MC 117 */ 
+Pin 78 = SLRO18; /* MC 118 */ 
+Pin 79 = SLRO19; /* MC 120 */ 
+Pin 80 = SLRO20; /* MC 121 */ 
+Pin 81 = SLRO21; /* MC 123 */ 
+Pin 83 = SLRO22; /* MC 125 */ 
+Pin 84 = SLRO23; /* MC 126 */ 
+Pin 87 = CLK;
+Pin 90 = XE;
+Pin 92 = BE6502; /* MC 16 */ 
+Pin 93 = RWB6502; /* MC 14 */ 
+Pin 94 = NMIB6502; /* MC 13 */ 
+Pin 96 = RST6502; /* MC 11 */ 
+Pin 97 = RDY6502; /* MC  9 */
+Pin 98 = RSTZ80; /* MC  8 */
+Pin 99 = BUSREQZ80; /* MC  6 */
+Pin 100 = WAITZ80; /* MC  5 */
+PINNODE 315 = FB_332; /* MC 15 Foldback */
+PINNODE 603 = C0; /* MC 3 Feedback */
+PINNODE 604 = RDY6502.AR; /* MC 4 Feedback */
+PINNODE 607 = DELAY; /* MC 7 Feedback */
+PINNODE 610 = SRR2; /* MC 10 Feedback */
+PINNODE 612 = SRR4; /* MC 12 Feedback */
+PINNODE 614 = SRR3; /* MC 14 Feedback */
+PINNODE 615 = SRR1; /* MC 15 Feedback */
+PINNODE 617 = SLR10; /* MC 17 Feedback */
+PINNODE 618 = SLR6; /* MC 18 Feedback */
+PINNODE 619 = SLR9; /* MC 19 Feedback */
+PINNODE 620 = SLR4; /* MC 20 Feedback */
+PINNODE 621 = SLR11; /* MC 21 Feedback */
+PINNODE 622 = SLR8; /* MC 22 Feedback */
+PINNODE 623 = SLR2; /* MC 23 Feedback */
+PINNODE 624 = SLR7; /* MC 24 Feedback */
+PINNODE 625 = SLR5; /* MC 25 Feedback */
+PINNODE 626 = SLR3; /* MC 26 Feedback */
+PINNODE 628 = SLR1; /* MC 28 Feedback */
+PINNODE 629 = SLR0; /* MC 29 Feedback */
+PINNODE 630 = SRR0; /* MC 30 Feedback */
+PINNODE 631 = SRR6; /* MC 31 Feedback */
+PINNODE 632 = SRR5; /* MC 32 Feedback */
+PINNODE 651 = C1; /* MC 51 Feedback */
+PINNODE 652 = SLR23; /* MC 52 Feedback */
+PINNODE 653 = SLR20; /* MC 53 Feedback */
+PINNODE 654 = SLR22; /* MC 54 Feedback */
+PINNODE 655 = SLR21; /* MC 55 Feedback */
+PINNODE 656 = SLR18; /* MC 56 Feedback */
+PINNODE 657 = SLR19; /* MC 57 Feedback */
+PINNODE 658 = SLR17; /* MC 58 Feedback */
+PINNODE 659 = SLR16; /* MC 59 Feedback */
+PINNODE 660 = SLR15; /* MC 60 Feedback */
+PINNODE 661 = SLR14; /* MC 61 Feedback */
+PINNODE 662 = SLR13; /* MC 62 Feedback */
+PINNODE 663 = SLR12; /* MC 63 Feedback */
+
+** Resource Usage **
+
+
+DCERP Field = Summary of Allocations.
+|||||
+|||||_Preset [p,-]       ==  p = PT preset, - No Preset.
+||||
+||||__Reset [g,r,-]      ==  g= Global AR, r = PT reset, - No reset.
+|||
+|||___Clock Enable [e,-] ==  e = Product Term, - always enabled, - none.
+||
+||____Clock [c,g,-],     ==  c = Product term, g = Global term, - No Clock.
+|
+|_____Type [C,D,L,T],    ==  Register type C= combin, D=dff, L=latch, T=tff.
+
+For input only = INPUT.
+
+MCell Pin# Oe   PinDrive  DCERP  FBDrive    DCERP  Foldback  CascadeOut     TotPT output_slew
+MC1   2    --   WRZ80     INPUT  --                --        --             0     slow
+MC2   0         --               --                --        --             0     slow
+MC3   1    --   XBUSACK   INPUT  C0         Tg-r-  --        --             1     slow
+MC4   0         --               RDY6502.AR C----  --        --             3     slow
+MC5   100  on   WAITZ80   C----  --                --        --             2     slow
+MC6   99   on   BUSREQZ80 C----  --                --        --             1     slow
+MC7   0         --               DELAY      Dc-r-  --        --             3     slow
+MC8   98   on   RSTZ80    C----  --                --        --             1     slow
+MC9   97   on   RDY6502   Dc-r-  --                NA        --             5     slow
+MC10  0         --               SRR2       Dc-r-  --        --             4     slow
+MC11  96   on   RST6502   C----  --                --        --             1     slow
+MC12  0         --               SRR4       Dc-r-  --        --             4     slow
+MC13  94   on   NMIB6502  C----  --                --        --             1     slow
+MC14  93   --   RWB6502   INPUT  SRR3       Dc-r-  --        --             4     slow
+MC15  0         --               SRR1       Dc-r-  FB_332    --             5     slow
+MC16  92   on   BE6502    Dc-rp  --                NA        --             5     slow
+MC17  14        --               SLR10      Dc-r-  --        --             3     slow
+MC18  0         --               SLR6       Dc-r-  --        --             3     slow
+MC19  13        --               SLR9       Dc-r-  --        --             3     slow
+MC20  0         --               SLR4       Dc-r-  --        --             3     slow
+MC21  12        --               SLR11      Dc-r-  --        --             3     slow
+MC22  10        --               SLR8       Dc-r-  --        --             3     slow
+MC23  0         --               SLR2       Dc-r-  --        --             3     slow
+MC24  9         --               SLR7       Dc-r-  --        --             3     slow
+MC25  8         --               SLR5       Dc-r-  --        --             3     slow
+MC26  0         --               SLR3       Dc-r-  --        --             3     slow
+MC27  7    on   NMIZ80    C----  --                --        --             1     slow
+MC28  0         --               SLR1       Dc-r-  --        --             3     slow
+MC29  6    --   MREQZ80   INPUT  SLR0       Dc-r-  --        --             3     slow
+MC30  5    --   RDZ80     INPUT  SRR0       Dc-r-  --        --             3     slow
+MC31  0         --               SRR6       Dc-r-  --        --             4     slow
+MC32  4    --   TDI       INPUT  SRR5       Dc-r-  --        --             4     slow
+MC33  25   on   CATCLK    C----  --                --        --             2     slow
+MC34  0         --               --                --        --             0     slow
+MC35  24   on   CLKZ80    C----  --                --        --             2     slow
+MC36  0         --               --                --        --             0     slow
+MC37  23   on   CLK6502   C----  --                --        --             2     slow
+MC38  22   --   RST       INPUT  --                --        --             0     slow
+MC39  0         --               --                --        --             0     slow
+MC40  21        --               --                --        --             0     slow
+MC41  20   on   XSLC      C----  --                --        --             3     slow
+MC42  0         --               --                --        --             0     slow
+MC43  19   --   XRD       INPUT  --                --        --             0     slow
+MC44  0         --               --                --        --             0     slow
+MC45  17   --   XWR       INPUT  --                --        --             0     slow
+MC46  16   on   XCLK      C----  --                --        --             2     slow
+MC47  0         --               --                --        --             0     slow
+MC48  15   --   TMS       INPUT  --                --        --             0     slow
+MC49  37   --   CPUGO     INPUT  --                --        --             0     slow
+MC50  0         --               --                --        --             0     slow
+MC51  36   --   CPUIRQ    INPUT  C1         Tg-r-  --        --             2     slow
+MC52  0         --               SLR23      Dc-r-  --        --             3     slow
+MC53  35   --   CPUSLC    INPUT  SLR20      Dc-r-  --        --             3     slow
+MC54  33   --   CPUSPD    INPUT  SLR22      Dc-r-  --        --             3     slow
+MC55  0         --               SLR21      Dc-r-  --        --             3     slow
+MC56  32   --   LD        INPUT  SLR18      Dc-r-  --        --             3     slow
+MC57  31   --   RWCAT     INPUT  SLR19      Dc-r-  --        --             3     slow
+MC58  0         --               SLR17      Dc-r-  --        --             3     slow
+MC59  30   --   AOE       INPUT  SLR16      Dc-r-  --        --             3     slow
+MC60  0         --               SLR15      Dc-r-  --        --             3     slow
+MC61  29   --   SC        INPUT  SLR14      Dc-r-  --        --             3     slow
+MC62  28   --   SI        INPUT  SLR13      Dc-r-  --        --             3     slow
+MC63  0         --               SLR12      Dc-r-  --        --             3     slow
+MC64  27   on   SO        Dc-r-  --                --        --             4     slow
+MC65  40   --   CPURST    INPUT  --                --        --             0     slow
+MC66  0         --               --                --        --             0     slow
+MC67  41   on   BE        C----  --                --        --             0     slow
+MC68  0         --               --                --        --             0     slow
+MC69  42   --   VBUSY     INPUT  --                --        --             0     slow
+MC70  44   on   CEVM      C----  --                --        --             4     slow
+MC71  0         --               --                --        --             0     slow
+MC72  45   on   RWVM      C----  --                --        --             3     slow
+MC73  46   on   OE        C----  --                --        --             4     slow
+MC74  0         --               --                --        --             0     slow
+MC75  47   --   CBUSY     INPUT  --                --        --             0     slow
+MC76  0         --               --                --        --             0     slow
+MC77  48   on   CECM      C----  --                --        --             4     slow
+MC78  49   on   RWCM      C----  --                --        --             3     slow
+MC79  0         --               --                --        --             0     slow
+MC80  50   on   WEHM      C----  --                --        --             3     slow
+MC81  52   on   CEHM      C----  --                --        --             4     slow
+MC82  0         --               --                --        --             0     slow
+MC83  53   on   WELM      C----  --                --        --             3     slow
+MC84  0         --               --                --        --             0     slow
+MC85  54   on   CELM      C----  --                --        --             3     slow
+MC86  55   PT   SLRO15    C----  --                --        --             2     slow
+MC87  0         --               --                --        --             0     slow
+MC88  56   PT   SLRO14    C----  --                --        --             2     slow
+MC89  57   PT   SLRO13    C----  --                --        --             2     slow
+MC90  0         --               --                --        --             0     slow
+MC91  58   PT   SLRO12    C----  --                --        --             2     slow
+MC92  0         --               --                --        --             0     slow
+MC93  60   PT   SLRO11    C----  --                --        --             2     slow
+MC94  61   PT   SLRO10    C----  --                --        --             2     slow
+MC95  0         --               --                --        --             0     slow
+MC96  62   --   TCK       INPUT  --                --        --             0     slow
+MC97  63   PT   SLRO9     C----  --                --        --             2     slow
+MC98  0         --               --                --        --             0     slow
+MC99  64   PT   SLRO8     C----  --                --        --             2     slow
+MC100 0         --               --                --        --             0     slow
+MC101 65   PT   SLRO7     C----  --                --        --             2     slow
+MC102 67   PT   SLRO6     C----  --                --        --             2     slow
+MC103 0         --               --                --        --             0     slow
+MC104 68   PT   SLRO5     C----  --                --        --             2     slow
+MC105 69   PT   SLRO4     C----  --                --        --             2     slow
+MC106 0         --               --                --        --             0     slow
+MC107 70   PT   SLRO3     C----  --                --        --             2     slow
+MC108 0         --               --                --        --             0     slow
+MC109 71   PT   SLRO2     C----  --                --        --             2     slow
+MC110 72   PT   SLRO1     C----  --                --        --             2     slow
+MC111 0         --               --                --        --             0     slow
+MC112 73   --   TDO       INPUT  --                --        --             0     slow
+MC113 75   PT   SLRO0     C----  --                --        --             2     slow
+MC114 0         --               --                --        --             0     slow
+MC115 76   PT   SLRO16    C----  --                --        --             2     slow
+MC116 0         --               --                --        --             0     slow
+MC117 77   PT   SLRO17    C----  --                --        --             2     slow
+MC118 78   PT   SLRO18    C----  --                --        --             2     slow
+MC119 0         --               --                --        --             0     slow
+MC120 79   PT   SLRO19    C----  --                --        --             2     slow
+MC121 80   PT   SLRO20    C----  --                --        --             2     slow
+MC122 0         --               --                --        --             0     slow
+MC123 81   PT   SLRO21    C----  --                --        --             2     slow
+MC124 0         --               --                --        --             0     slow
+MC125 83   PT   SLRO22    C----  --                --        --             2     slow
+MC126 84   PT   SLRO23    C----  --                --        --             2     slow
+MC127 0         --               --                --        --             0     slow
+MC128 85        --               --                --        --             0     slow
+MC0   90        XE        INPUT  --                --        --             0     slow
+MC0   89        --               --                --        --             0     slow
+MC0   88        --               --                --        --             0     slow
+MC0   87        CLK       INPUT  --                --        --             0     slow
+
+Logic Array Block	Logic Cells	I/O Pins	Foldbacks	TotalPT		FanIN	Cascades
+A: LC1	- LC16		14/16(87%)	10/16(62%)	1/16(6%)	40/80(50%)	(25)	0
+B: LC17	- LC32		16/16(100%)	4/16(25%)	0/16(0%)	48/80(60%)	(22)	0
+C: LC33	- LC48		5/16(31%)	9/16(56%)	0/16(0%)	11/80(13%)	(27)	0
+D: LC49	- LC64		14/16(87%)	10/16(62%)	0/16(0%)	42/80(52%)	(18)	0
+E: LC65	- LC80		7/16(43%)	10/16(62%)	0/16(0%)	21/80(26%)	(21)	0
+F: LC81	- LC96		9/16(56%)	10/16(62%)	0/16(0%)	22/80(27%)	(21)	0
+G: LC97	- LC112		9/16(56%)	10/16(62%)	0/16(0%)	18/80(22%)	(11)	0
+H: LC113- LC128		9/16(56%)	9/16(56%)	0/16(0%)	18/80(22%)	(12)	0
+
+Total dedicated input used:	2/4 	(50%)
+Total I/O pins used		72/80 	(90%)
+Total Logic cells used 		83/128 	(64%)
+Total Flip-Flop used 		37/128 	(28%)
+Total Foldback logic used 	1/128 	(0%)
+Total Nodes+FB/MCells 		84/128 	(65%)
+Total cascade used 		0
+Total input pins 		26
+Total output pins 		48
+Total Pts 			220
+Creating pla file FATSPACER.tt3 with 0 inputs 0 outputs, 0 pins 0 nodes and 0 pterms...
+
+----------------  End fitter, Design FITS
+$Device TQFP100 fits 
+FIT1508 completed in 0.00 seconds
