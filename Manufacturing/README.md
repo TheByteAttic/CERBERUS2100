@@ -1,0 +1,1 @@
+These are the files you need to have a CERBERUS 2100™ board built and populated. To have it fully populated, use the 'complete' files. The files marked 'minimal' contain only the small discrete components. This is useful if you can, and prefer to, drag-solder the main chips yourself, like I do.
