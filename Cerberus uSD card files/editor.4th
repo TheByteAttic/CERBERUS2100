@@ -1,0 +1,245 @@
+\ Cerberus 2080 FORTH editor.
+\ (C) 2022 L.C. Benschop, licensed under GPLv3
+
+VOCABULARY EDITOR
+EDITOR ALSO DEFINITIONS
+
+VARIABLE CURLINE 1 CELLS ALLOT
+VARIABLE RLINE
+VARIABLE FINISHED
+VARIABLE TOPLINE 1 CELLS ALLOT
+VARIABLE CPOS 
+VARIABLE CURSHOWN
+VARIABLE CURLINEROW
+VARIABLE CURLINELEN
+VARIABLE OLDCURLINELEN
+VARIABLE CURSTATE 
+VARIABLE REDRAW
+VARIABLE CRLF
+
+: SCAN-BWD ( start len c --- prev)
+    -ROT OVER >R BOUNDS SWAP ?DO
+	I C@ OVER =
+	IF
+	    DROP I UNLOOP R> DROP  EXIT
+	THEN
+    -1 +LOOP DROP R> 1- ;
+
+: LINE-BWD ( addr n --- )
+    SWAP DUP @ ROT
+    0 DO
+	2- FILESTART OVER U< 0= IF DROP FILESTART SWAP ! UNLOOP EXIT THEN
+	FILESTART SWAP OVER - 10 SCAN-BWD 1+
+	OVER -1 SWAP CELL+ +! \ Decrement line number
+    LOOP SWAP ! ;
+
+: LINE-FWD ( addr n --- )
+    SWAP DUP @ ROT 
+    0 DO FILEEND @ 2DUP U< 0= IF DROP SWAP ! UNLOOP EXIT THEN
+	OVER - 10 SCAN DROP 1+
+	OVER 1 SWAP CELL+ +! \ increment line number
+    LOOP SWAP ! ;
+
+: ISCURPOS ( n --- )
+    DUP CURLINE @ CPOS @ + =
+    SWAP LINEBUF CPOS @ + = OR DUP IF CURSHOWN ON THEN ;    
+
+: TSTOP 8 COL @ 7 AND - SWAP IF $A0 EMIT 1- THEN SPACES ;
+	
+: RENDERLINE ( addr len --- )
+    OVER CURLINE @ = DUP
+    IF
+	OVER CRLF @ IF 1- THEN CPOS @ MIN CPOS ! 
+	ROW@ CURLINEROW ! OVER CURLINELEN !
+	CURSTATE @
+	IF
+	    ROT DROP LINEBUF -ROT
+	THEN
+    THEN >R
+    CURSHOWN OFF
+    BOUNDS ?DO
+	I C@ DUP 9 =
+	IF
+	    DROP I ISCURPOS TSTOP
+	ELSE
+	    DUP 13 = IF
+		DROP
+	    ELSE
+		I ISCURPOS IF $80 OR THEN
+		EMIT
+	    THEN
+	THEN
+    LOOP
+    R> CURSHOWN @ 0= AND IF $A0 EMIT ELSE SPACE THEN ;
+
+: SHOWSCREEN
+    TOPLINE @ 0= IF
+	CURLINE 2@ TOPLINE 2!
+	PAGE
+    ELSE
+	CURLINE CELL+ @ TOPLINE CELL+ @ U< 
+	IF
+	    CURLINE 2@ TOPLINE 2!
+	    PAGE
+	    TOPLINE 13 LINE-BWD
+	ELSE
+	    CURLINE CELL+ @ TOPLINE CELL+ @ 13 + U>
+	    IF
+		CURLINE 2@ TOPLINE 2!
+		PAGE
+	    ELSE
+		REDRAW @ 0=  IF 0 0 AT-XY ELSE PAGE 0 REDRAW ! THEN
+	    THEN
+	THEN
+    THEN
+    TOPLINE @ RLINE !
+    14 0 DO 
+	RLINE @ DUP FILEEND @
+	2DUP U< IF
+	    OVER - 10 SCAN DROP
+	    DUP 1+ RLINE !
+	    OVER  - RENDERLINE CR
+	ELSE
+	    2DROP 0 RENDERLINE CR LEAVE
+	THEN  
+    LOOP
+    BASE @ DECIMAL
+    0 29 AT-XY ." Line#" CURLINE CELL+ @  4 .R
+    ."  Fsize" FILEEND @ FILESTART - 6 U.R
+    CRLF @ IF ."  CRLF" ELSE ."  LF" THEN
+    BASE !
+;
+
+: RENDERCUR
+    \ Render just the current line on-screen.
+    0 CURLINEROW @ AT-XY
+    CURLINE @ CURLINELEN @ RENDERLINE ;
+
+: ENTERCUR
+    \ Start editing the current line in LINEBUF. If not already there,
+    \ copy the line into LINEBUF
+    CURSTATE @ 0=
+    IF
+	CURLINELEN @ OLDCURLINELEN !
+	CURLINE @ LINEBUF CURLINELEN @ CMOVE \ Copy current line to linebuf
+	1 CURSTATE !
+    THEN ;
+
+: LEAVECUR
+    \ Leave the current line that you were editing in LINEBUF.
+    \ If changes were made to it, then store them back to the in-memory file.
+    CURSTATE @ 2 =
+    IF
+	\ 4 different cases
+	CURLINE @ OLDCURLINELEN @ + 1+ FILEEND @ U< 0=
+	IF
+	    \ 1 we are at the last line.
+	    CURLINE @ CURLINELEN @ + FILEEND !
+	ELSE
+	    CURLINELEN @ OLDCURLINELEN @ =
+	    IF
+		\ 2 modified line is same length as old
+	    ELSE
+		\ 3 modified line is shorter, move remaining part
+		\ 4 modified line is longer, same code
+		CURLINE @ OLDCURLINELEN @ +
+		CURLINE @ CURLINELEN @ +
+		FILEEND @ 2 PICK - MOVE
+		CURLINELEN @ OLDCURLINELEN @ - FILEEND +!
+	    THEN
+	THEN
+	LINEBUF CURLINE @ CURLINELEN @ CMOVE
+	1 REDRAW !
+    THEN
+    0 CURSTATE ! ;
+
+: CURLT CPOS @ IF -1 CPOS +! RENDERCUR THEN ;
+: CURRT 1 CPOS +! RENDERCUR ;    
+: PAGEUP LEAVECUR CURLINE 14 LINE-BWD SHOWSCREEN ;
+: PAGEDOWN LEAVECUR CURLINE 14 LINE-FWD SHOWSCREEN ;
+: CURUP LEAVECUR CURLINE 1 LINE-BWD SHOWSCREEN ;
+: CURDN LEAVECUR CURLINE 1 LINE-FWD SHOWSCREEN ;
+: INSCHAR ( c ---)
+    ENTERCUR LINEBUF CPOS @ + DUP DUP 1+ CURLINELEN @ CPOS @ - CMOVE> C!
+    1 CURLINELEN +! 1 CPOS +! 2 CURSTATE !
+    RENDERCUR ;
+: JOINLINE
+    1 CRLF @ IF 1+ THEN >R
+    LEAVECUR \ Store the current line back.
+    CURLINE @ \ original CURLINE
+    CURLINE 1 LINE-BWD \ Move to previous line
+    CURLINE @ OVER SWAP - R@ - CPOS !
+    DUP LINESTART U> IF
+	\ Move the text one or 2 bytes bytes back overwriting the newline.
+	DUP R@ - FILEEND @ OVER - CMOVE R@ NEGATE FILEEND +!
+    ELSE
+	DROP
+    THEN
+    R> DROP
+    1 REDRAW ! SHOWSCREEN
+;
+
+: DELLT ( --- )
+    \ Del character to the left of the cursor.
+    ENTERCUR
+    CPOS @
+    IF
+	-1 CPOS +!
+	LINEBUF CPOS @ +  DUP 1+ SWAP CURLINELEN @ CPOS @ - CMOVE
+	-1 CURLINELEN +!
+	RENDERCUR SPACE
+	2 CURSTATE !
+    ELSE
+	JOINLINE
+    THEN
+;
+ : SPLITLINE
+     ENTERCUR \ Start editing current line
+     CRLF @ IF 13 INSCHAR THEN
+     10 INSCHAR \ insert newline character.
+     LEAVECUR \ Store edited line back
+     0 CPOS ! CURLINE 1 LINE-FWD \ Move to start of next line.
+     SHOWSCREEN ;
+
+: FINISH LEAVECUR FINISHED ON ;
+
+: HANDLE-KEY
+    DUP 32 127 WITHIN IF
+	INSCHAR
+    ELSE
+	CASE
+	    8  OF CURLT ENDOF
+	    21 OF CURRT ENDOF
+	    10 OF CURDN ENDOF
+	    11 OF CURUP ENDOF
+	    25 OF PAGEUP ENDOF
+	    26 OF PAGEDOWN ENDOF
+	    27 OF FINISH ENDOF
+	    9  OF 9 INSCHAR ENDOF 
+	    13 OF SPLITLINE ENDOF 
+	    127 OF DELLT ENDOF
+	ENDCASE
+    THEN
+;
+
+FORTH DEFINITIONS    
+: ED
+    FINISHED OFF
+    FILESTART CURLINE !
+    0 TOPLINE ! 0 TOPLINE CELL+ !
+    1 CURLINE CELL+  !
+    0 CPOS !
+    0 CURSTATE !
+    0 REDRAW !
+    FILESTART FILEEND @ OVER - 13 SCAN NIP 0= 0= CRLF !
+    \ Uncomment the following line if you prefer CRLF files by default.
+    \ FILEEND @  FILESTART = IF CRLF ON THEN
+    SHOWSCREEN
+    BEGIN
+	KEY HANDLE-KEY
+    FINISHED @ UNTIL 0 29 AT-XY
+;
+ONLY FORTH ALSO DEFINITIONS
+
+
+    
