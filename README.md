@@ -1,5 +1,5 @@
 # CERBERUS 2100™
-
+The amazing multi-CPU microcomputer!
 ![IMG_0601 Background Removed small](https://github.com/TheByteAttic/CERBERUS2100/assets/69539226/88f6fabf-902e-4ba8-89cf-b806ca0061c0)
 
 CERBERUS 2100™ is an educational multi-processor 8-bit microcomputer, featuring both Z80 and 6502 CPUs, and AVR processor as I/O controller. Built with CPLDs, CERBERUS 2100™ is fully programmable even with respect to its hardware, at the individual gate and flip-flop level. It runs BASIC interpreters for both CPUs, but can also be used in a 'bare metal' mode through its built-in BIOS.
