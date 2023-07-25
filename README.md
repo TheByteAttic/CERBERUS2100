@@ -1,5 +1,5 @@
 # CERBERUS 2100™
-The amazing multi-CPU microcomputer with powerful, generic expansion capabilities!
+The amazing multi-CPU, BASIC-programmable microcomputer with powerful, generic expansion capabilities!
 
 ![IMG_0601 Background Removed small](https://github.com/TheByteAttic/CERBERUS2100/assets/69539226/88f6fabf-902e-4ba8-89cf-b806ca0061c0)
 
