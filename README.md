@@ -1,5 +1,5 @@
 # CERBERUS 2100™
-The amazing multi-CPU, BASIC-programmable microcomputer with powerful, generic expansion capabilities! CERBERUS 2100™ is the successor to <a href="https://github.com/TheByteAttic/CERBERUS2080">CERBERUS 2080™</a>, which is now obsolete. CERBERUS 2100™ is backward compatible with CERBERUS 2080™ software-wise (not in terms of firmware).
+The amazing multi-CPU, BASIC-programmable microcomputer with powerful, generic expansion capabilities! CERBERUS 2100™ is the successor to <a href="https://github.com/TheByteAttic/CERBERUS2080">CERBERUS 2080™</a>, which is now obsolete.
 
 ![IMG_0601 Background Removed small](https://github.com/TheByteAttic/CERBERUS2100/assets/69539226/88f6fabf-902e-4ba8-89cf-b806ca0061c0)
 
