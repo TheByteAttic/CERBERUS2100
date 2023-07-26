@@ -21,7 +21,7 @@ The directories in this repository are as follows:
 Copyright © 2023 by Bernardo Kastrup. All rights reserved. Provided under <a href="https://github.com/TheByteAttic/CERBERUS2100/blob/main/LICENSE">license</a>.
 <br>
 <hr>
-<b>CHANGE HISTORY:<b>
+<b>CHANGE HISTORY:<b><br>
   <UL>
     <LI><b>26 July 2023:</b> Full initial commit.</LI>
   </UL>
