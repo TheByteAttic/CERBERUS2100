@@ -23,5 +23,6 @@ Copyright © 2023 by Bernardo Kastrup. All rights reserved. Provided under <a hr
 <hr>
 <b>CHANGE HISTORY:</b><br><br>
   <UL>
+    <LI><b>26 July 2023:</b> Corrections and extensions to the Hardware Manual.</LI>
     <LI><b>26 July 2023:</b> Full initial commit.</LI>
   </UL>
