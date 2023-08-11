@@ -1,6 +1,6 @@
 \ created 1994 by L.C. Benschop.
 \ copyleft (c) 1994-2014 by the sbc09 team, see AUTHORS for more details.
-\ copyleft (c) 2022 L.C. Benschop for Cerberus 2080.
+\ copyleft (c) 2023 L.C. Benschop for Cerberus 2080.
 \ license: GNU General Public License version 3, see LICENSE for more details.
 CROSS-COMPILE
 
@@ -473,8 +473,8 @@ VARIABLE ERRORS ( --- a-addr)
     FORTH-WORDLIST CURRENT !
     0 HANDLER !
     LINESTART @ 0= IF
-	PAGE  ." Cerberus Z80 Forth, 2022-03-27 GPLv3" CR
-	127 EMIT ."  2022 L.C. Benschop, Brad Rodriguez" CR
+	PAGE  ." Cerberus Z80 Forth, 2023-08-11 GPLv3" CR
+	127 EMIT ."  2023 L.C. Benschop, Brad Rodriguez" CR
     THEN
     QUIT ;
 
