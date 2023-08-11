@@ -1,7 +1,9 @@
 \ created 1994 by L.C. Benschop.
 \ copyleft (c) 1994-2014 by the sbc09 team, see AUTHORS for more details.
-\ copyleft (c) 2022 L.C. Benschop for Cerberus 2080.
+\ copyleft (c) 2022-2023 L.C. Benschop for Cerberus 2080/2100.
 \ license: GNU General Public License version 3, see LICENSE for more details.
+\ Change: 2023-08-11: top address of edit buffer moved 2 bytes down,
+\         so as not to collide with expansion card mailbox. 
 CROSS-COMPILE
 
 \ PART 4: Constants and variables
@@ -375,7 +377,7 @@ VARIABLE DPL ( --- a-addr)
 ;
 
 \ PART 10: Source loading and parsing.
-\ A single file can be loaded in memory from $8000 to $F000.
+\ A single file can be loaded in memory from $8000 to $EFFE.
 
 $8000 CONSTANT FILESTART ( --- addr)
 \G Address where source file is stored in memory.
@@ -521,7 +523,7 @@ VARIABLE  PARAMBLK ( --- addr)
 
 : OPEN ( --- )
 \G Load a file into the source file buffer.    
-    FILESTART $F000 FILESTART -
+    FILESTART $EFFE FILESTART -
     2DUP 0 FILL
     2DUP BLOAD
     0 SCAN DROP FILEEND ! ;
