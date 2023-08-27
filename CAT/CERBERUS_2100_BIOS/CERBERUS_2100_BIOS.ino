@@ -48,12 +48,14 @@
 //             Removed unused keymaps. 
 //             One command basic loading. Non blocking sound API.
 //             Updated load command - returning how many bytes was actually read
+// 27/08/2023: EEPROM-based persistent settings for mode and CPU speed
 
 /** These libraries are built into the arduino IDE  **/
 
 #include <SPI.h>
 #include <SD.h>
 #include <TimerOne.h>
+#include <EEPROM.h>
 
 // Working with patched PS2 keyboard library
 // Patches required for BBC Basic and for keeping more keyboards compatible
@@ -63,13 +65,13 @@
 #define	config_dev_mode	0			// Turn off various BIOS outputs to speed up development, specifically uploading code
 #define config_silent 0				// Turn off the startup jingle
 #define config_enable_nmi 1			// Turn on the 50hz NMI timer when CPU is running. If set to 0 will only trigger an NMI on keypress
-#define config_default_cpu 0		// 0: 6502, 1: Z80
-#define config_default_speed 1		// 0: 4mhz, 1: 8mhz
 #define config_outbox_flag 0x0200	// Outbox flag memory location (byte)
 #define config_outbox_data 0x0201	// Outbox data memory location (byte)
 #define config_inbox_flag 0x0202	// Inbox flag memory location (byte)
 #define config_inbox_data 0x0203	// Inbox data memory location (word)
 #define config_code_start 0x0205	// Start location of code
+#define config_eeprom_address_mode    0 // First EEPROM location
+#define config_eeprom_address_speed   1 // Second EEPROM location
 
 /** The next pins go to FAT-SPACER **/
 #define SI 19      /** Serial Input, pin 28 on FAT-CAT **/
@@ -125,10 +127,10 @@ volatile uint16_t bytesRead;
 
 /** The above is self-explanatory: it allows for repeating previous command **/
 volatile byte pos = 1;						/** Position in edit line currently occupied by cursor **/
-volatile bool mode = config_default_cpu;	/** false = 6502 mode, true = Z80 mode**/
+volatile bool mode = false;	/** false = 6502 mode, true = Z80 mode**/
 volatile bool cpurunning = false;			/** true = CPU is running, CAT should not use the buses **/
 volatile bool interruptFlag = false;		/** true = Triggered by interrupt **/
-volatile bool fast = config_default_speed;	/** true = 8 MHz CPU clock, false = 4 MHz CPU clock **/
+volatile bool fast = true;	/** true = 8 MHz CPU clock, false = 4 MHz CPU clock **/
  File cd;							/** Used by BASIC directory commands **/
 volatile bool expflag = false;
 void(* resetFunc) (void) = 0;       		/** Software reset fuction at address 0 **/
@@ -142,6 +144,19 @@ ISR(PCINT3_vect) {
 
 
 void setup() {
+  /** Read previous settings from EEPROM**/
+  mode = EEPROM.read(config_eeprom_address_mode);
+  if((mode != 0) && (mode != 1))
+  {
+    mode = 0;
+    EEPROM.write(config_eeprom_address_mode,0);
+  }
+  fast = EEPROM.read(config_eeprom_address_speed);
+  if((fast != 0) && (fast != 1))
+  {
+    fast = 0;
+    EEPROM.write(config_eeprom_address_speed,0);
+  }
 	/** First, declaring all the pins **/
   	pinMode(SO, OUTPUT);
   	pinMode(SI, INPUT);               /** There will be pull-up and pull-down resistors in circuit **/
@@ -163,8 +178,8 @@ void setup() {
   	digitalWrite(AOE, LOW);
   	digitalWrite(LD, LOW);
   	digitalWrite(SC, LOW);
-  	digitalWrite(CPUSPD, config_default_speed);
-  	digitalWrite(CPUSLC, config_default_cpu);
+  	digitalWrite(CPUSPD, fast);
+  	digitalWrite(CPUSLC, mode);
   	digitalWrite(CPUIRQ, LOW);
   	digitalWrite(CPUGO, LOW);
   	digitalWrite(CPURST, LOW);
@@ -523,11 +538,13 @@ void enter() {  /** Called when the user presses ENTER, unless a CPU program is 
   /** 6502 ***********************************************************************************/
   } else if (nextWord == F("6502")) {     /** Switches to 6502 mode **/
     mode = false;
+    EEPROM.write(config_eeprom_address_mode,0);
     digitalWrite(CPUSLC, LOW);            /** Tell CAT of the new mode **/
     cprintStatus(STATUS_READY);
   /** Z80 ***********************************************************************************/
   } else if (nextWord == F("z80")) {      /** Switches to Z80 mode **/
     mode = true;
+    EEPROM.write(config_eeprom_address_mode,1);
     digitalWrite(CPUSLC, HIGH);           /** Tell CAT of the new mode **/
     cprintStatus(STATUS_READY);
   /** RESET *********************************************************************************/
@@ -537,11 +554,13 @@ void enter() {  /** Called when the user presses ENTER, unless a CPU program is 
   } else if (nextWord == F("fast")) {     /** Sets CPU clock at 8 MHz **/
     digitalWrite(CPUSPD, HIGH);
     fast = true;
+    EEPROM.write(config_eeprom_address_speed,1);
     cprintStatus(STATUS_READY);
   /** SLOW **********************************************************************************/
   } else if (nextWord == F("slow")) {     /** Sets CPU clock at 4 MHz **/
     digitalWrite(CPUSPD, LOW);
     fast = false;
+    EEPROM.write(config_eeprom_address_speed,0);
     cprintStatus(STATUS_READY);
   /** DIR ***********************************************************************************/
   } else if (nextWord == F("dir")) {      /** Lists files on uSD card **/
