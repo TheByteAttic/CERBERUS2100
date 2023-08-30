@@ -172,6 +172,7 @@ void setup() {
   	pinMode(CPUGO, OUTPUT);
   	pinMode(CPURST, OUTPUT);
   	pinMode(SOUND, OUTPUT);
+    pinMode(XBUSACK, OUTPUT);
   	/** Writing default values to some of the output pins **/
   	digitalWrite(RW, HIGH);
   	digitalWrite(SO, LOW);
@@ -183,6 +184,7 @@ void setup() {
   	digitalWrite(CPUIRQ, LOW);
   	digitalWrite(CPUGO, LOW);
   	digitalWrite(CPURST, LOW);
+    digitalWrite(XBUSACK, HIGH);
 	  // Attach an interrupt to XIRQ so to react to the expansion card timely
   	cli();	
 	PCICR  |= 0b00001000;  // Enables Port E Pin Change Interrupts
