@@ -23,6 +23,7 @@ Copyright © 2023 by Bernardo Kastrup. All rights reserved. Provided under <a hr
 <hr>
 <b>CHANGE HISTORY:</b><br><br>
   <UL>
+    <LI><b>30 August 2023:</b> Correction to the BIOS code (affecting expansion port control), as pull request from Jeroen Venema.</LI>
     <LI><b>28 August 2023:</b> Minor typo corrected on page 49 of the Hardware Manual.</LI>
     <LI><b>26 July   2023:</b> Corrections and extensions to the Hardware Manual.</LI>
     <LI><b>26 July   2023:</b> Full initial commit.</LI>
