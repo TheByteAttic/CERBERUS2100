@@ -172,7 +172,7 @@ void setup() {
   	pinMode(CPUGO, OUTPUT);
   	pinMode(CPURST, OUTPUT);
   	pinMode(SOUND, OUTPUT);
-    pinMode(XBUSACK, OUTPUT);
+        pinMode(XBUSACK, OUTPUT);
   	/** Writing default values to some of the output pins **/
   	digitalWrite(RW, HIGH);
   	digitalWrite(SO, LOW);
