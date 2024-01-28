@@ -23,8 +23,9 @@ Copyright © 2023 by Bernardo Kastrup. All rights reserved. Provided under <a hr
 <hr>
 <b>CHANGE HISTORY:</b><br><br>
   <UL>
-    <LI><b>30 August 2023:</b> Correction to the BIOS code (affecting expansion port control), as pull request from Jeroen Venema.</LI>
-    <LI><b>28 August 2023:</b> Minor typo corrected on page 49 of the Hardware Manual.</LI>
-    <LI><b>26 July   2023:</b> Corrections and extensions to the Hardware Manual.</LI>
-    <LI><b>26 July   2023:</b> Full initial commit.</LI>
+    <LI><b>28 January 2024:</b>FAT-SCUNK (files FAT-SCUNK.PLD, FAT-SCUNK.fit and FAT-SCUNK.jed in the <a href="https://github.com/TheByteAttic/CERBERUS2100/tree/main/CPLD_Files">/CPLD_Files</a> directory) has been updated so to display up to 8 colors simultaneously on the screen. Specific foreground colors are assigned to specific character codes (not screen positions). The <a href="https://github.com/TheByteAttic/CERBERUS2100/blob/main/CERBERUS%202100%20Hardware%20Manual.pdf">Hardware Manual</a> has been updated accordingly, including the video architecture diagram on page 14.</LI>
+    <LI><b>30 August  2023:</b> Correction to the BIOS code (affecting expansion port control), as pull request from Jeroen Venema.</LI>
+    <LI><b>28 August  2023:</b> Minor typo corrected on page 49 of the Hardware Manual.</LI>
+    <LI><b>26 July    2023:</b> Corrections and extensions to the Hardware Manual.</LI>
+    <LI><b>26 July    2023:</b> Full initial commit.</LI>
   </UL>
