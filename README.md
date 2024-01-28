@@ -18,7 +18,7 @@ The directories in this repository are as follows:
   <LI><a href="https://github.com/TheByteAttic/CERBERUS2100/tree/main/Photos">Photos</a>: contains high-resolution, properly illuminated photos of a correctly assembled CERBERUS 2100™ unit. These photos can be used as reference for manual assembly, or to illustrate articles on CERBERUS 2100™. If you are a journalist, member of the media, or tech blogger, please feel free to use these photos without need to request explicit authorization from me.</LI>
 </UL>
 <br>
-Copyright © 2023 by Bernardo Kastrup. All rights reserved. Provided under <a href="https://github.com/TheByteAttic/CERBERUS2100/blob/main/LICENSE">license</a>.
+Copyright © 2023-2024 by Bernardo Kastrup. All rights reserved. Provided under <a href="https://github.com/TheByteAttic/CERBERUS2100/blob/main/LICENSE">license</a>.
 <br>
 <hr>
 <b>CHANGE HISTORY:</b><br><br>
