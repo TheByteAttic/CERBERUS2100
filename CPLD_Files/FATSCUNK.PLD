@@ -1,6 +1,8 @@
 Name      FATSCUNK; /** SCan coUNter clocK for CERBERUS 2100 **/
+/** This is the multi-color version of FAT SCUNK, in which different **/
+/** graphic characters are hardware-programmed to take on different colors **/
 Partno    ATF1508AS;
-Date      17/June/2023;
+Date      28/January/2024;
 Revision  Release 1.0;
 Designer  Bernardo Kastrup;
 Company   The Byte Attic;
@@ -59,20 +61,27 @@ Pin 49 = FREE1; /** Unused outputs routed to FAT CAVIA **/
 Pin 48 = FREE2;
 Pin 47 = FREE3;
 
-
 /** I/Os **/
-Pin 46 = FREE4; /** Unused I/Os routed to/from FAT CAVIA **/
-Pin 45 = FREE5;
-Pin 70 = FREE6;
-Pin 69 = FREE7;
-Pin 68 = FREE8;
-Pin 64 = FREE9;
-Pin 50 = FREE10;
-Pin 52 = FREE11;
+
+/** Current Character Address (CCA) bits from FAT CAVIA **/
+Pin 46 = CCA0; /** was FREE4 **/
+Pin 45 = CCA1; /** was FREE5 **/
+Pin 70 = CCA2; /** was FREE6 **/
+Pin 69 = CCA3; /** was FREE7 **/
+Pin 68 = CCA4; /** was FREE8 **/
+Pin 64 = CCA5; /** was FREE9 **/
+Pin 50 = CCA6; /** was FREE10 **/
+Pin 52 = CCA7; /** was FREE11 **/
+
+/** Free inputs/outputs from/to FAT CAVIA **/
 Pin 42 = FREE12;
 
 
 /** Buried states **/
+
+Pinnode = [CA7..0]; /** Buffers the previous value of the Character Address to maintain synchronization, **/
+                    /** as FAT CAVIA runs always one cycle ahead of FAT SCUNK **/
+
 Pinnode = HFPD; /** Horizontal Front Porch Detector **/
 Pinnode = HSPD; /** Horizontal Sync Pulse Detector **/
 Pinnode = HBPD; /** Horizontal Back Porch Detector **/
@@ -104,9 +113,68 @@ NB = !HFPD & !HSPD & !HBPD & !VFPD & !VSPD & !VBPD;
 /**********************************************************/
 /** Define pixel color based on output of shift register **/
 /**********************************************************/
-RED   = OUTBIT;       /** See line below **/
-GREEN = OUTBIT;       /** Combined with the above, sets yellow color for foreground (active) pixels **/
-BLUE  = NB & !OUTBIT; /** Defines blue color for background (inactive) pixels, outside of blanking interval **/
+
+/** First, capture the current character address in FAT CAVIA just before it changes to the next one **/
+CA7.d = CCA7;
+CA6.d = CCA6;
+CA5.d = CCA5;
+CA4.d = CCA4;
+CA3.d = CCA3;
+CA2.d = CCA2;
+CA1.d = CCA1;
+CA0.d = CCA0;
+[CA7..0].ck = !S3 & !S2 & !S1 & S0; /** This is when a character byte is loaded into the shift register **/
+[CA7..0].ar = RST;
+
+/** Now distribute the colors over different graphics characters **/
+GREEN = (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 & !CA3) #                      /** white **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 & !CA2 & !CA1 & !CA0) # /** 01000: green **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 & !CA2 &  CA1 &  CA0) # /** 01011: yellow **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 &  CA2 & !CA1 & !CA0) # /** 01100: cyan **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 &  CA2 &  CA1 & !CA0) # /** 01110: green **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 & !CA2 & !CA1 &  CA0) # /** 10001: yellow **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 & !CA2 &  CA1 & !CA0) # /** 10010: cyan **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 &  CA2 & !CA1 & !CA0) # /** 10100: green **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 &  CA2 &  CA1 &  CA0) # /** 10111: yellow **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 & !CA2 & !CA1 & !CA0) # /** 11000: cyan **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 & !CA2 &  CA1 & !CA0) # /** 11010: green **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 & !CA1 &  CA0) # /** 11101: yellow **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 &  CA1 & !CA0) # /** 11110: cyan **/
+        (OUTBIT &  CA5) #                                                  /** white **/
+	   (OUTBIT &  CA6) #                                                  /** white **/
+	   (OUTBIT &  CA7);                                                   /** white **/
+RED =   (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 & !CA3) #                      /** white **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 & !CA2 & !CA1 &  CA0) # /** 01001: red **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 & !CA2 &  CA1 &  CA0) # /** 01011: yellow **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 &  CA2 & !CA1 &  CA0) # /** 01101: purple **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 &  CA2 &  CA1 &  CA0) # /** 01111: red **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 & !CA2 & !CA1 &  CA0) # /** 10001: yellow **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 & !CA2 &  CA1 &  CA0) # /** 10011: purple **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 &  CA2 & !CA1 &  CA0) # /** 10101: red **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 &  CA2 &  CA1 &  CA0) # /** 10111: yellow **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 & !CA2 & !CA1 &  CA0) # /** 11001: purple **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 & !CA2 &  CA1 &  CA0) # /** 11011: red **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 & !CA1 &  CA0) # /** 11101: yellow **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 &  CA1 &  CA0) # /** 11111: purple **/
+        (OUTBIT &  CA5) #                                                  /** white **/
+	   (OUTBIT &  CA6) #                                                  /** white **/
+	   (OUTBIT &  CA7);                                                   /** white **/
+BLUE  = (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 & !CA3) #                      /** white **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 & !CA2 &  CA1 & !CA0) # /** 01010: blue **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 &  CA2 & !CA1 & !CA0) # /** 01100: cyan **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 &  CA2 & !CA1 &  CA0) # /** 01101: purple **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 & !CA2 & !CA1 & !CA0) # /** 10000: blue **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 & !CA2 &  CA1 & !CA0) # /** 10010: cyan **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 & !CA2 &  CA1 &  CA0) # /** 10011: purple **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 & !CA3 &  CA2 &  CA1 & !CA0) # /** 10110: blue **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 & !CA2 & !CA1 & !CA0) # /** 11000: cyan **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 & !CA2 & !CA1 &  CA0) # /** 11001: purple **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 & !CA1 & !CA0) # /** 11100: blue **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 &  CA1 & !CA0) # /** 11110: cyan **/
+        (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 &  CA1 &  CA0) # /** 11111: purple **/
+        (OUTBIT &  CA5) #                                                  /** white **/
+	   (OUTBIT &  CA6) #                                                  /** white **/
+	   (OUTBIT &  CA7);                                                   /** white **/
 
 
 /****************************************************************************************/
