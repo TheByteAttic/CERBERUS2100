@@ -141,8 +141,8 @@ GREEN = (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 & !CA3) #                      /** w
         (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 & !CA1 &  CA0) # /** 11101: yellow **/
         (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 &  CA1 & !CA0) # /** 11110: cyan **/
         (OUTBIT &  CA5) #                                                  /** white **/
-	   (OUTBIT &  CA6) #                                                  /** white **/
-	   (OUTBIT &  CA7);                                                   /** white **/
+	(OUTBIT &  CA6) #                                                  /** white **/
+	(OUTBIT &  CA7);                                                   /** white **/
 RED =   (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 & !CA3) #                      /** white **/
         (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 & !CA2 & !CA1 &  CA0) # /** 01001: red **/
         (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 & !CA2 &  CA1 &  CA0) # /** 01011: yellow **/
@@ -157,8 +157,8 @@ RED =   (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 & !CA3) #                      /** w
         (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 & !CA1 &  CA0) # /** 11101: yellow **/
         (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 &  CA1 &  CA0) # /** 11111: purple **/
         (OUTBIT &  CA5) #                                                  /** white **/
-	   (OUTBIT &  CA6) #                                                  /** white **/
-	   (OUTBIT &  CA7);                                                   /** white **/
+	(OUTBIT &  CA6) #                                                  /** white **/
+	(OUTBIT &  CA7);                                                   /** white **/
 BLUE  = (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 & !CA3) #                      /** white **/
         (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 & !CA2 &  CA1 & !CA0) # /** 01010: blue **/
         (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 &  CA3 &  CA2 & !CA1 & !CA0) # /** 01100: cyan **/
@@ -173,8 +173,8 @@ BLUE  = (OUTBIT & !CA7 & !CA6 & !CA5 & !CA4 & !CA3) #                      /** w
         (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 &  CA1 & !CA0) # /** 11110: cyan **/
         (OUTBIT & !CA7 & !CA6 & !CA5 &  CA4 &  CA3 &  CA2 &  CA1 &  CA0) # /** 11111: purple **/
         (OUTBIT &  CA5) #                                                  /** white **/
-	   (OUTBIT &  CA6) #                                                  /** white **/
-	   (OUTBIT &  CA7);                                                   /** white **/
+	(OUTBIT &  CA6) #                                                  /** white **/
+	(OUTBIT &  CA7);                                                   /** white **/
 
 
 /****************************************************************************************/
