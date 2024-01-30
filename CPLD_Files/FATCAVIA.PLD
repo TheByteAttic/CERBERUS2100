@@ -90,7 +90,7 @@ Pin 48 = CMA10;
 /** I/Os **/
 /**********/
 
-/** Unused pins routed from/to SCUNK **/
+/** Pins routed from/to SCUNK **/
 Pin 92 = FREE4;
 Pin 93 = FREE5;
 Pin 63 = FREE6;
