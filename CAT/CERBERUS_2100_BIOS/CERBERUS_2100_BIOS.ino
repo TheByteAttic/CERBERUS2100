@@ -50,6 +50,14 @@
 //             Updated load command - returning how many bytes was actually read
 // 27/08/2023: EEPROM-based persistent settings for mode and CPU speed
 
+/** Updated By: Jeroen Venema **/
+
+// ModInfo:
+// 03/02/2024: Native AVR Port statements used where possible in these functions:
+//             setShiftRegister / readShiftRegister
+//             cpoke / cpeek
+// 03/02/2024: Changed cpeekW to use bitshifting for performance
+
 /** These libraries are built into the arduino IDE  **/
 
 #include <SPI.h>
@@ -75,11 +83,24 @@
 
 /** The next pins go to FAT-SPACER **/
 #define SI 19      /** Serial Input, pin 28 on FAT-CAT **/
+#define SI_PORT    PORTC
+#define SI_PORTPIN PC5
+#define SI_INPORT  PINC
 #define SO 18      /** Serial Output, pin 27 on FAT-CAT **/
+#define SO_PORT    PORTC
+#define SO_PORTPIN PC4
 #define SC 17      /** Shift Clock, pin 26 on FAT-CAT **/
+#define SC_PORT    PORTC
+#define SC_PORTPIN PC3
 #define AOE 16     /** Address Output Enable, pin 25 on FAT-CAT **/
+#define AOE_PORT   PORTC
+#define AOE_PORTPIN PC2
 #define RW 15      /** Memory Read/!Write, pin 24 on FAT-CAT **/
+#define RW_PORT    PORTC
+#define RW_PORTPIN PC1
 #define LD 14      /** Latch Data, pin 23 on FAT-CAT **/
+#define LD_PORT    PORTC
+#define LD_PORTPIN PC0
 #define CPUSLC 5   /** CPU SeLeCt, pin 9 on FAT-CAT **/
 #define CPUIRQ 6   /** CPU Interrupt ReQuest, pin 10 on FAT-CAT **/
 #define CPUGO 7    /** CPU Go/!Halt, pin 11 on FAT-CAT **/
@@ -1125,23 +1146,49 @@ void resetCPUs() {            	/** Self-explanatory **/
 }
 
 byte readShiftRegister() {
-  	byte data;
-  	data = shiftIn(SI, SC, MSBFIRST);
-  	return data;
+  uint8_t data = 0;
+  uint8_t mask = 0x80;
+
+  for (uint8_t i = 0; i < 8; ++i) {
+    digitalWrite(SC, HIGH);       // timing issues, if we use direct port access here (spacer might not be ready)
+    if(SI_INPORT & (1 << SI_PORTPIN)) data |= mask;
+    SC_PORT &= ~(1 << SC_PORTPIN);
+    mask = mask >> 1;
+  }
+  return data;
+}
+
+void shiftOutFast(uint8_t val) {
+  // Fast shiftOut
+  // clockPin == SO (PORTC / PC4)
+  // dataPin  == SC (PORTC / PC3)
+  // LSBFIRST ONLY
+
+  for(uint8_t i = 0; i< 8; i++) {
+    if(val & 1) {
+      SO_PORT |= (1 << SO_PORTPIN);
+    }
+    else {
+      SO_PORT &= ~(1 << SO_PORTPIN);
+    }
+    val >>= 1;
+    SC_PORT |= (1 << SC_PORTPIN);
+    SC_PORT &= ~(1 << SC_PORTPIN);
+  }
 }
 
 void setShiftRegister(unsigned int address, byte data) { 
-  	shiftOut(SO, SC, LSBFIRST, address);      /** First 8 bits of address **/
-  	shiftOut(SO, SC, LSBFIRST, address >> 8); /** Then the remaining 8 bits **/
-  	shiftOut(SO, SC, LSBFIRST, data);         /** Finally, a byte of data **/
+  shiftOutFast(address);      /** First 8 bits of address **/
+  shiftOutFast(address >> 8); /** Then the remaining 8 bits **/
+  shiftOutFast(data);         /** Finally, a byte of data **/
 }
 
 void cpoke(unsigned int address, byte data) {
-  	setShiftRegister(address, data);
-  	digitalWrite(AOE, HIGH);      /** Enable address onto bus **/
-  	digitalWrite(RW, LOW);        /** Begin writing **/
-  	digitalWrite(RW, HIGH);       /** Finish up**/
-  	digitalWrite(AOE, LOW);
+ 	setShiftRegister(address, data);
+  AOE_PORT |= (1 << AOE_PORTPIN); //digitalWrite(AOE, HIGH);      /** Enable address onto bus **/
+  RW_PORT &= ~(1 << RW_PORTPIN);  //digitalWrite(RW, LOW);        /** Begin writing **/
+  RW_PORT |= (1 << RW_PORTPIN);   //digitalWrite(RW, HIGH);       /** Finish up**/
+  AOE_PORT &= ~(1 << AOE_PORTPIN);
 }
 
 void cpokeW(unsigned int address, unsigned int data) {
@@ -1166,20 +1213,20 @@ boolean cpokeStr(unsigned int address, String text) {
 }
 
 byte cpeek(unsigned int address) {
-  	byte data = 0;
-  	setShiftRegister(address, data);
-  	digitalWrite(AOE, HIGH);      /** Enable address onto us **/
-  	/** This time we do NOT enable the data outputs of the shift register, as we are reading **/
-  	digitalWrite(LD, HIGH);       /** Prepare to latch byte from data bus into shift register **/
-  	digitalWrite(SC, HIGH);       /** Now the clock tics, so the byte is actually latched **/
-  	digitalWrite(LD, LOW);
-  	digitalWrite(AOE, LOW);
-  	data = readShiftRegister();
-  	return data;
+ 	byte data = 0;
+ 	setShiftRegister(address, data);
+  AOE_PORT |= (1 << AOE_PORTPIN); //digitalWrite(AOE, HIGH);      /** Enable address onto bus **/
+ 	/** This time we do NOT enable the data outputs of the shift register, as we are reading **/
+ 	LD_PORT |= (1 << LD_PORTPIN);   //digitalWrite(LD, HIGH);       /** Prepare to latch byte from data bus into shift register **/
+ 	SC_PORT |= (1 << SC_PORTPIN);   //digitalWrite(SC, HIGH);       /** Now the clock tics, so the byte is actually latched **/
+ 	LD_PORT &= ~(1 << LD_PORTPIN);  //digitalWrite(LD, LOW);
+  AOE_PORT &= ~(1 << AOE_PORTPIN);//digitalWrite(AOE, LOW);
+ 	data = readShiftRegister();
+ 	return data;
 }
 
 unsigned int cpeekW(unsigned int address) {
-	return cpeek(address) + (256 * cpeek(address+1));
+  return (cpeek(address) | (cpeek(address+1) << 8));
 }
 
 boolean cpeekStr(unsigned int address, volatile char * dest, int max) {
