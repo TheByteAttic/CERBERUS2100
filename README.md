@@ -23,6 +23,7 @@ Copyright © 2023-2024 by Bernardo Kastrup. All rights reserved. Provided under 
 <hr>
 <b>CHANGE HISTORY:</b><br><br>
   <UL>
+    <LI><b>4 February 2024:</b> Update to the firmware (faster reads and writes by FAT CAT) through a pull request from Jeroen Venema.</LI>
     <LI><b>28 January 2024:</b> FAT-SCUNK (files FAT-SCUNK.PLD, FAT-SCUNK.fit and FAT-SCUNK.jed in the <a href="https://github.com/TheByteAttic/CERBERUS2100/tree/main/CPLD_Files">/CPLD_Files</a> directory) has been updated so to display up to 8 colors simultaneously on the screen. Specific foreground colors are assigned to specific character codes (not screen positions). The <a href="https://github.com/TheByteAttic/CERBERUS2100/blob/main/CERBERUS%202100%20Hardware%20Manual.pdf">Hardware Manual</a> has been updated accordingly, including the video architecture diagram on page 14. See page 19 for more details. <i>These changes are unrelated to the PCB, BoM and centroid files, and even the firmware;</i> they are accomplished simply by reprogramming one of the CPLDs, and can be applied to all existing boards.</LI>
     <LI><b>30 August  2023:</b> Correction to the BIOS code (affecting expansion port control), as pull request from Jeroen Venema.</LI>
     <LI><b>28 August  2023:</b> Minor typo corrected on page 49 of the Hardware Manual.</LI>
