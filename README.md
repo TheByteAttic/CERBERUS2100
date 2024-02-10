@@ -1,6 +1,6 @@
 # CERBERUS 2100™
 The software-rewireable, educational, multi-CPU, BASIC-programmable microcomputer with powerful, generic expansion capabilities! CERBERUS 2100™ is the successor of <a href="https://github.com/TheByteAttic/CERBERUS2080">CERBERUS 2080™</a>, which is now obsolete. Check out the project's <a href="https://www.thebyteattic.com/p/cerberus-2100.html">official homepage</a>.
-<br>
+<br><br>
 <b><i>BREAKING:</i> <a href="https://www.olimex.com/Products/Retro-Computers/CERBERUS2100/open-source-hardware">Olimex is now selling ready-to-use CERBERUS 2100™ units!</a></b>
 <br>
 
