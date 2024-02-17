@@ -64,13 +64,13 @@ VARIABLE ORIENTATION \ Direction in which snake is moving.
     C@ EMIT
 ;
 
-128 UDG EMPTY 
+26 UDG EMPTY \ will be green
 $00 C, $00 C, $00 C, $18 C, $18 C, $00 C, $00 C, $00 C,
-129 UDG FOOD
+29 UDG FOOD \ will be yellow
 $18 C, $3C C, $7E C, $7E C, $7E C, $7E C, $3C C, $18 C,
-130 UDG WALL
+31 UDG WALL \ wull be magenta
 $7E C, $7E C, $7E C, $00 C, $E7 C, $E7 C, $E7 C, $00 C,
-\ All remaining UDGs are segments of the serpent.
+\ All remaining UDGs are segments of the serpent (white).
 131 UDG HORIZ
 $00 C, $FF C, $FF C, $E7 C, $E7 C, $FF C, $FF C, $00 C,
 132 UDG VERT
@@ -280,7 +280,7 @@ VARIABLE SCORE
     0 24 AT-XY ." Press any key to start the game." KEY DROP ;
 
 : ASK-QUIT ( --- f)
-    2 12 AT-XY
+    1 12 AT-XY
     ." GAME OVER!!!! Play another one? (Y/n)"
     50 0 DO WAITFRAME LOOP
     0 $200 C! \ Clear key code.
