@@ -87,16 +87,16 @@ VARIABLE SEED
     DOES> DUP C@ 8 * $F000 + SWAP 1+ SWAP 8 CMOVE ;
 
 \ Wall edge of pit
-129 UDG WALL $7E C, $7E C, $7E C, $00 C, $E7 C, $E7 C, $E7 C, $00 C,
+31 UDG WALL $7E C, $7E C, $7E C, $00 C, $E7 C, $E7 C, $E7 C, $00 C,
 
 \ Bit patterns for each of the seven bricks.
-130 UDG BR1  $00 C, $7E C, $7E C, $7E C, $7E C, $7E C, $7E C, $00 C,
-131 UDG BR2  $FF C, $E7 C, $C3 C, $81 C, $81 C, $C3 C, $E7 C, $FF C,
-132 UDG BR3  $55 C, $AA C, $55 C, $AA C, $55 C, $AA C, $55 C, $AA C,
-133 UDG BR4  $FF C, $FF C, $FF C, $FF C, $FF C, $FF C, $FF C, $FF C,
-134 UDG BR5  $FF C, $E7 C, $DB C, $BD C, $BD C, $DB C, $E7 C, $FF C,
-135 UDG BR6  $00 C, $66 C, $66 C, $00 C, $00 C, $66 C, $66 C, $00 C,
-136 UDG BR7  $FF C, $99 C, $99 C, $FF C, $FF C, $99 C, $99 C, $FF C,
+9  UDG BR1  $00 C, $7E C, $7E C, $7E C, $7E C, $7E C, $7E C, $00 C,
+8  UDG BR2  $FF C, $E7 C, $C3 C, $81 C, $81 C, $C3 C, $E7 C, $FF C,
+11 UDG BR3  $55 C, $AA C, $55 C, $AA C, $55 C, $AA C, $55 C, $AA C,
+10 UDG BR4  $FF C, $FF C, $FF C, $FF C, $FF C, $FF C, $FF C, $FF C,
+13 UDG BR5  $FF C, $E7 C, $DB C, $BD C, $BD C, $DB C, $E7 C, $FF C,
+12 UDG BR6  $00 C, $66 C, $66 C, $00 C, $00 C, $66 C, $66 C, $00 C,
+7  UDG BR7  $FF C, $99 C, $99 C, $FF C, $FF C, $99 C, $99 C, $FF C,
 
 137 UDG LEFTARROW  $00 C, $00 C, $20 C, $40 C, $FE C, $40 C, $20 C, $00 C, 
 138 UDG RIGHTARROW $00 C, $00 C, $08 C, $04 C, $FE C, $04 C, $08 C, $00 C,   
@@ -105,9 +105,11 @@ VARIABLE SEED
   
 : POSITION	\ row col --- ; cursor to the position in the pit
 	        COL0 + SWAP ROW0 + AT-XY ;
-	    
+
+
+CREATE BRICKCODES 9 C, 8 C, 11 C, 10 C, 13 C, 12 C, 7 C,	    
 : PR-CHAR      \ c1 ---
-               DUP BL = IF EMIT ELSE  65 + EMIT THEN ;
+               DUP BL = IF EMIT ELSE  65 - BRICKCODES + C@ EMIT THEN ;
 : STONE	       \ c1 --- ; draw or undraw this character
 	       WIPING @ IF DROP BL THEN PR-CHAR ;
 
@@ -127,13 +129,13 @@ DEF-PIT PIT
 
 : DRAW-BOTTOM	\ --- ; redraw the bottom of the pit
 		DEEP -1 POSITION
-                39 0 DO  129 EMIT LOOP
+                39 0 DO  31 EMIT LOOP
                 ;
 
 : DRAW-FRAME	\ --- ; draw the border of the pit
 		DEEP 0 DO
-		    I -1   POSITION  129 EMIT
-		    I WIDE POSITION  129 EMIT
+		    I -1   POSITION  31 EMIT
+		    I WIDE POSITION  31 EMIT
 		LOOP  DRAW-BOTTOM ;
 
 : BOTTOM-MSG	\ addr cnt --- ; output a message in the bottom of the pit
@@ -153,7 +155,7 @@ DEF-PIT PIT
 		THEN ;
 
 : WALLS ( n --- ) \ draw n wall characters
-   0 DO 129 EMIT LOOP ;
+   0 DO 31 EMIT LOOP ;
 
 
 
