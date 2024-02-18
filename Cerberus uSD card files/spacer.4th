@@ -11,7 +11,7 @@ FORGET SEED
 
 VARIABLE SEED
 
-: RANDOMIZE	0 ." Press any key." CR BEGIN 1+ KEY? UNTIL KEY DROP SEED ! ;
+: RANDOMIZE	0 ." Press any key to start game." BEGIN 1+ KEY? UNTIL KEY DROP SEED ! ;
 
 : RANDOM	\ max --- n ; return random number < max
     SEED @ 1103515245 * 12345 + 
@@ -27,6 +27,8 @@ VARIABLE SCORE
 VARIABLE BONUS-SCORE
 VARIABLE FUEL
 VARIABLE LIFT
+VARIABLE LEVEL
+VARIABLE LOCKED \ Lock out the laser hitting the ship immediately again 
 
 VARIABLE QUITTING
 
@@ -35,17 +37,17 @@ VARIABLE QUITTING
     DOES> DUP C@ 8 * $F000 + SWAP 1+ SWAP 8 CMOVE ;
 
 
-\ UDGs for gackground.
-128 UDG BG0
+\ UDGs for background (all yellow).
+11 UDG BG0
  $FF C,  $FF C, $FF C, $FF C, $FF C, $FF C, $FF C, $FF C, 
 
-129 UDG BG1
+17 UDG BG1
  $80 C, $C0 C, $E0 C, $F0 C, $F8 C, $FC C, $FE C, $FF C,
 
-130 UDG BG2
+23 UDG BG2
 $01 C, $03 C, $07 C, $0F C, $1F C, $3F C, $7f C, $FF C,
 
-131 UDG BG3
+29 UDG BG3
 $7E C, $FF C, $FF C, $FF C, $FF C, $FF C, $FF C, $FF C, 
 
 132 UDG LASER-G
@@ -57,24 +59,52 @@ $00 C, $00 C, $7F C, $FF C, $7F C, $00 C, $00 C, $00 C,
 134 UDG MIS2
 $00 C, $01 C, $FF C, $FE C, $FF C, $01 C, $00 C, $00 C,
 
-135 UDG SHIP1
+8 UDG SHIP1  \ Green
 $0F C, $4F C, $6F C, $FF C, $FF C, $6F C, $4F C, $0F C,
 
-136 UDG SHIP2
+14 UDG SHIP2
 $F0 C, $F8 C, $FC C, $FF C, $FF C, $FC C, $F8 C, $F0 C,
 
-137 UDG EN1-1
+21 UDG FUEL-GAUGE \ red
+$00 C, $00 C, $FF C, $FF C, $FF C, $FF C, $00 C, $00 C,
+  
+13 UDG EN1-1 \ magenta
 $0F C, $3F C, $7F C, $E6 C, $E6 C, $7F C, $3F C, $0F C,
 
-138 UDG EN1-2
+19 UDG EN1-2
 $F0 C, $FC C, $FE C, $67 C, $67 C, $FE C, $FC C, $F0 C,
 
-139 UDG EN2-1
+24 UDG EN1-1A \ same ship in cyan
+$0F C, $3F C, $7F C, $E6 C, $E6 C, $7F C, $3F C, $0F C,
+
+30 UDG EN1-2A
+$F0 C, $FC C, $FE C, $67 C, $67 C, $FE C, $FC C, $F0 C,
+
+20 UDG EN1-1B \ same ship in green
+$0F C, $3F C, $7F C, $E6 C, $E6 C, $7F C, $3F C, $0F C,
+
+26 UDG EN1-2B
+$F0 C, $FC C, $FE C, $67 C, $67 C, $FE C, $FC C, $F0 C,
+
+12 UDG EN2-1 \ Cyan
 $0F C, $3F C, $7F C, $E6 C, $E6 C, $7F C, $31 C, $C1 C,
 
-140 UDG EN2-2
+18 UDG EN2-2
 $F0 C, $FC C, $FE C, $67 C, $67 C, $FE C, $8C C, $83 C,
 
+25 UDG EN2-1A \ same ship in magenta
+$0F C, $3F C, $7F C, $E6 C, $E6 C, $7F C, $31 C, $C1 C,
+
+31 UDG EN2-2A
+$F0 C, $FC C, $FE C, $67 C, $67 C, $FE C, $8C C, $83 C,
+
+10 UDG EN2-1B \ same ship in blue
+$0F C, $3F C, $7F C, $E6 C, $E6 C, $7F C, $31 C, $C1 C,
+
+16 UDG EN2-2B
+$F0 C, $FC C, $FE C, $67 C, $67 C, $FE C, $8C C, $83 C,
+
+\ Parts of the big ship (white)
 141 UDG EN3-1
 $1F C, $3F C, $7F C, $FF C, $FF C, $7F C, $3F C, $1F C,
 
@@ -93,12 +123,34 @@ $FF C, $7F C, $3F C, $1F C, $0F C, $07 C, $03 C, $01 C,
 146 UDG EN3-6
 $80 C, $C0 C, $E0 C, $F0 C, $F8 C, $FC C, $FE C, $FF C,
 
-147 UDG EXPL1
+  
+\ Parts of the big ship, dithered (white)
+  1 UDG EN3-1A
+$15 C, $2A C, $55 C, $AA C, $55 C, $2A C, $15 C, $0A C,
+
+  2 UDG EN3-2A
+$54 C, $AA C, $55 C, $AA C, $55 C, $AA C, $54 C, $A8 C,
+
+  3 UDG EN3-3A
+$01 C, $02 C, $05 C, $0A C, $15 C, $2A C, $55 C, $AA C,
+
+  4 UDG EN3-4A
+$55 C, $AA C, $54 C, $A8 C, $50 C, $A0 C, $40 C, $80 C,
+
+  5 UDG EN3-5A
+$55 C, $2A C, $15 C, $0A C, $05 C, $02 C, $01 C, $00 C,
+
+  6 UDG EN3-6A
+$00 C, $80 C, $40 C, $A0 C, $50 C, $A8 C, $54 C, $AA C,
+
+  7 UDG EN3-INVIS
+$00 C, $00 C, $00 C, $00 C, $00 C, $00 C, $00 C, $00 C,
+  
+9 UDG EXPL1 \ red
 $14 C, $00 C, $8A C, $00 C, $92 C, $00 C, $44 C, $00 C,
 
-148 UDG EXPL2
+15 UDG EXPL2
 $00 C, $14 C, $00 C, $8A C, $00 C, $92 C, $00 C, $44 C,
-
 
 149 UDG ASTEROID1
 $0F C, $3F C, $3F C, $7F C, $F7 C, $FF C, $FB C, $FF C,
@@ -411,13 +463,92 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
 	1 #SHIPS +!
     THEN
     0 29 AT-XY  ." SHIPS " #SHIPS @ 3 .R SPACE
-    ." FUEL "  FUEL @ 10 RSHIFT 1+ 0 DO [CHAR] + EMIT LOOP 10 SPACES
+    ." FUEL "  FUEL @ 10 RSHIFT 1+ 0 DO 21 EMIT LOOP 10 SPACES
     29 29 AT-XY  ." SCORE" SCORE @ 5 .R
 ;
 
 
 : SHIP-X SHIP-DATA 4 + C@ ;
 : SHIP-Y SHIP-DATA 8 + C@ ;
+
+\ Table indexed from 8 translates first char of ship into 16-bit two chars
+\ of ship of a different colour and the same shape.
+CREATE LEVEL-TRANS1
+0 , 0 ,  0 , 0 ,
+$100A , $1A14 ,  0 , 0 ,
+0 , 0 ,  0 , 0 ,
+0 , 0 ,  0 , 0 ,
+0 , 0 ,  0 , 0 ,
+0 , 0 ,  0 , 0 ,
+
+\ Table indexed from 8 translates first char of ship into 16-bit two chars
+\ of ship of a different colour and the same shape. Level 4 and higher.
+CREATE LEVEL-TRANS2
+0 , 0 ,  0 , 0 ,
+$1F19 , $1E18 ,  0 , 0 ,
+0 , 0 ,  0 , 0 ,
+0 , 0 ,  0 , 0 ,
+$1A14 , $100A ,  0 , 0 ,  
+0 , 0 ,  0 , 0 ,
+
+: HIT-ENEMY1 ( ship-addr --- f)
+    LOCKED @ IF
+	DROP FALSE
+    ELSE
+	LEVEL @ 2 < IF
+	    DROP TRUE
+	ELSE
+	    >R R@ 9 + C@ DUP 10 = SWAP 20 = OR IF
+		R> DROP TRUE
+	    ELSE
+		R@ 9 + C@ 8 - CELLS
+		LEVEL @ 4 < IF LEVEL-TRANS1 ELSE LEVEL-TRANS2 THEN
+		+ @ R> 9 + !
+		FALSE
+	    THEN
+	THEN
+	1 LOCKED !
+    THEN ;
+
+: CHANGE-TO-GRAY
+    $0201 SHIP-DATA BYTES-PER-SHIP + 9 + DUP >R !
+    $0403 R@ BYTES-PER-SHIP + !
+    $0605 R> BYTES-PER-SHIP 2* + !
+;    
+
+: CHANGE-TO-INVIS
+    $0707 SHIP-DATA BYTES-PER-SHIP + 9 + DUP >R !
+    $0707 R@ BYTES-PER-SHIP + !
+    $0707 R> BYTES-PER-SHIP 2* + !
+;    
+
+: HIT-ENEMY2 ( --- f )
+    LOCKED @ IF
+	FALSE
+    ELSE
+	LEVEL @ 2 < IF
+	    TRUE
+	ELSE
+	    LEVEL @ 4 < IF
+		SHIP-DATA BYTES-PER-SHIP + 9 + C@ 128 > IF
+		    CHANGE-TO-GRAY FALSE
+		ELSE
+		    TRUE
+		THEN
+	    ELSE
+		SHIP-DATA BYTES-PER-SHIP + 9 + C@ 128 > IF
+		    CHANGE-TO-GRAY FALSE
+		ELSE
+		    SHIP-DATA BYTES-PER-SHIP + 9 + C@ 7 = IF
+			TRUE
+		    ELSE
+			CHANGE-TO-INVIS FALSE
+		    THEN
+		THEN
+	    THEN
+	THEN
+	1 LOCKED !
+    THEN ;
 
 : LASER-ON
 	SHIP-X 2+ SHIP-Y AT-XY 
@@ -429,27 +560,46 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
 	    DUP C@ 1 = OVER 8 + C@ SHIP-Y = AND SWAP 4 + C@ SHIP-X > AND
 	    IF
 		\ Laser has hit main enemy ship.
-		1 ENEMIES-KILLED +!
-		75 SCORE +! SHOW-SCORE
-		SHIP-DATA BYTES-PER-SHIP + BYTES-PER-SHIP 4 * ERASE
+		HIT-ENEMY2
+		IF
+		    1 ENEMIES-KILLED +!
+		    75 SCORE +! SHOW-SCORE
+		    SHIP-DATA BYTES-PER-SHIP + BYTES-PER-SHIP 4 * ERASE
+		THEN
 	    THEN
 	ELSE
 	    SHIP-DATA SHIP-ARRAY-SIZE  BOUNDS BYTES-PER-SHIP + DO
 		I C@ 1 = IF
 		    \ Laser has hit one or more enemy ships
 		    I 8 + C@ SHIP-Y = I 4 + C@ SHIP-X > AND IF
-			ENEMY-MODE @ 10 * 50 + SCORE +! SHOW-SCORE
-			0 I C!
-			1 ENEMIES-KILLED +!
+			I HIT-ENEMY1
+			IF
+			    ENEMY-MODE @ 10 * 50 + SCORE +! SHOW-SCORE
+			    0 I C!
+			    1 ENEMIES-KILLED +!
+			THEN
 		    THEN
 		THEN
 	    BYTES-PER-SHIP +LOOP
 	THEN
 ;
 
+\ Reset fuel for a new ship or after refueling. Get less as the game
+\ gets harder.
+: SET-FUEL
+    LEVEL @ 2 < IF
+	10000
+    ELSE
+	LEVEL @ 4 < IF
+	    5000
+	ELSE
+	    2500
+	THEN
+    THEN FUEL ! ;
+
 : SHOW-EXPL
 \ Show exploding ship    
-    SHIP-X SHIP-Y AT-XY  147 EMIT 148 EMIT
+    SHIP-X SHIP-Y AT-XY  9 EMIT 15 EMIT
     2000 MS
 ;    
    
@@ -457,12 +607,12 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
 : COLLISION-DETECT ( --- f)
     PLAYFIELD SHIP-Y 40 * + SHIP-X + @ DUP $455546 =
     IF
-	DROP 10000 FUEL !
+	DROP SET-FUEL
 	SHOW-SCORE
 	10 28 AT-XY 20 SPACES
 	FALSE EXIT
     THEN	
-    $8080 AND IF
+    DUP 2* OR $4040 XOR $4040 AND IF
 	TRUE
 	10 28 AT-XY  ." Crashed into ground"
 	SHOW-EXPL
@@ -510,7 +660,7 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
     PAGE
     PLAYFIELD 1200 BLANK
     SHIP-DATA SHIP-ARRAY-SIZE ERASE
-    135 136 2 0 ADD-SHIP
+    8 14 2 0 ADD-SHIP
     $2020 SHIP-DATA 11 + !
     16 0 SET-POS-X 
     12 0 SET-POS-Y 
@@ -529,19 +679,19 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
     ENEMIES-ADDED @ MAX-SHIPS 1- <
     IF
 	ENEMY-MODE @ 0= IF
-	    137 138 1 ENEMIES-ADDED @ 1+ ADD-SHIP
+	    13 19 1 ENEMIES-ADDED @ 1+ ADD-SHIP
 	    1 ENEMIES-ADDED +!
 	    20 RANDOM ENEMIES-ADDED @ SET-POS-Y
 	    38 ENEMIES-ADDED @ SET-POS-X
-	    -8 ENEMIES-ADDED @ SET-RATE-X
+	    -12 ENEMIES-ADDED @ SET-RATE-X
 	    0 ENEMIES-ADDED @ SET-RATE-Y
 	ELSE
 	    ENEMY-MODE @ 1 = IF
-		139 140 1 ENEMIES-ADDED @ 1+ ADD-SHIP
+		12 18 1 ENEMIES-ADDED @ 1+ ADD-SHIP
 		1 ENEMIES-ADDED +!
 		20 RANDOM ENEMIES-ADDED @ SET-POS-Y
 		0 ENEMIES-ADDED @ SET-POS-X
-		8 ENEMIES-ADDED @ SET-RATE-X
+		12 ENEMIES-ADDED @ SET-RATE-X
 		0 ENEMIES-ADDED @ SET-RATE-Y
 	    ELSE
 		ENEMY-MODE @ 2 = IF
@@ -568,7 +718,7 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
 			133 134 3 4 ADD-SHIP
 			R> 4 SET-POS-Y
 			35 4 SET-POS-X
-			-16 4 SET-RATE-X
+			-32 4 SET-RATE-X
 			\ 'ship 4' is our missile.
 		    THEN
 		ELSE
@@ -584,7 +734,7 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
 	    0 ENEMIES-ADDED !
 	    0 ENEMIES-KILLED !
 	    1 ENEMY-MODE +!
-	    ENEMY-MODE @ 3 > IF 0 ENEMY-MODE ! THEN
+	    ENEMY-MODE @ 3 > IF 0 ENEMY-MODE ! 1 LEVEL +! THEN
 	THEN
     THEN
 ;
@@ -597,17 +747,19 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
 	    BGPTR @ C@
 	WHILE
 		BGPTR @ COUNT 2DUP + BGPTR !
-		BOUNDS DO I C@ 48 58 WITHIN IF I C@ 48 - 128 + I C! THEN LOOP
+		BOUNDS DO I C@ 48 58 WITHIN IF I C@ 48 - 6 * 11 + I C! THEN LOOP
 		\ Change characters in background array to UDG range.
 	REPEAT
     LOOP
+    0 LEVEL !
+    0 LOCKED !
     0 ENEMY-MODE !
     3 #SHIPS !
     0 SCORE !
     2000 BONUS-SCORE !
-    10000 FUEL !
+    SET-FUEL
     2 SCROLL-PERIOD !
-    100 ADD-ENEMY-PERIOD !
+    50 ADD-ENEMY-PERIOD !
 ;    
 
 : MAINLOOP
@@ -630,6 +782,8 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
 	ENDCASE
 	LASER-TEMP @ IF
 	    -1 LASER-TEMP +!
+	ELSE
+	    0 LOCKED !
 	THEN
 	1 SCROLL-TIMER +!
 	SCROLL-TIMER @ SCROLL-PERIOD @ >= IF
@@ -649,7 +803,7 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
 	THEN
 	FUEL @ $3FF AND $3FF = IF SHOW-SCORE THEN
 	MOVE-SHIPS
-	COLLISION-DETECT IF QUITTING ON -1 #SHIPS +! 10000 FUEL ! THEN
+	COLLISION-DETECT IF QUITTING ON -1 #SHIPS +! SET-FUEL THEN
 	DRAW-SHIPS
 	PLAYFIELD $F800 1120 CMOVE \ Move the scrolled background to video RAM.
 	QUITTING @
@@ -659,14 +813,20 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
     \ Define all UDGs
     PAGE
     BG0 BG1 BG2 BG3 LASER-G MIS1 MIS2 SHIP1 SHIP2
-    EN1-1 EN1-2 EN2-1 EN2-2 EN3-1 EN3-2 EN3-3 EN3-4 EN3-5 EN3-6
+    EN1-1 EN1-2 EN2-1 EN2-2
+    EN1-1A EN1-2A EN2-1A EN2-2A
+    EN1-1B EN1-2B EN2-1B EN2-2B
+    EN3-1 EN3-2 EN3-3 EN3-4 EN3-5 EN3-6
+    EN3-1A EN3-2A EN3-3A EN3-4A EN3-5A EN3-6A
+    EN3-INVIS
     EXPL1 EXPL2
+    FUEL-GAUGE
     ASTEROID1 ASTEROID2 ASTEROID3 ASTEROID4
      14 0 AT-XY ." S-P-A-C-E-R" 
     CR
-    CR ." v0.1 Copyright 2024 L.C. Benschop"
+    CR ." v0.2 Copyright 2024 L.C. Benschop"
     CR
-    CR ." Cursor keys to control your ship "  135 EMIT 136 EMIT
+    CR ." Cursor keys to control your ship "  8 EMIT 14 EMIT
     CR ." Keys 1, 2, 3 set rate of ascent/descent"
     CR
     CR ." SPACE fires your laser."
@@ -680,14 +840,14 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
     CR ." Navigate around them."
     CR
     CR
-    CR 137 EMIT 138 EMIT  10 SPACES ." 50 points"
+    CR 13  EMIT 19  EMIT  10 SPACES ." 50 points"
     CR
-    CR 139 EMIT 140 EMIT  10 SPACES ." 60 points"
+    CR 12  EMIT 18  EMIT  10 SPACES ." 60 points"
     CR
     CR SPACE 143 EMIT 144 EMIT 
     CR  141 EMIT 142 EMIT 10 SPACES ." 75 points"
     CR SPACE 145 EMIT 146 EMIT
-    0 29 AT-XY ." Press any key to start game " KEY DROP
+    0 29 AT-XY RANDOMIZE
 ;
 
 : SPACER
@@ -706,4 +866,4 @@ CREATE SHIP-DATA  SHIP-ARRAY-SIZE ALLOT
     PAGE
 ;
 
-
+SPACER
