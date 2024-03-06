@@ -26,6 +26,7 @@ Copyright © 2023-2024 by Bernardo Kastrup. All rights reserved. Provided under 
 <hr>
 <b>CHANGE HISTORY:</b><br><br>
   <UL>
+    <LI><b>05 March 2024:</b> New startup screen options by <i>Movie Vertigo</i> have been added to the folder <a href="https://github.com/TheByteAttic/CERBERUS2100/tree/main/Cerberus%20uSD%20card%20files/AlternativeBootScreens">/Cerberus uSD card files/AlternativeBootScreens</a>. These change the character definitions and may have side effects in earlier software. To solve the latter, just reload the default character definition file.</LI>
     <LI><b>18 February 2024:</b> Several applications by Lennart Benschop, in the <i>/Cerberus uSD card files</i> folder, have been updated to take advantage of CERBERUS's new color capabilities (see update from 28 January 2024 below).</LI>
     <LI><b>8 February 2024:</b> The game Sokoban, by Jeroen Venema, in the <i>/Cerberus uSD card files</i> folder, has been updated to take advantage of CERBERUS's new color capabilities (see update from 28 January 2024 below).</LI>
     <LI><b>3 February 2024:</b> Update to the firmware (faster reads and writes by FAT CAT) through a pull request from Jeroen Venema.</LI>
