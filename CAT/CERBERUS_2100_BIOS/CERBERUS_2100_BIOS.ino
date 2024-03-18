@@ -423,13 +423,19 @@ void messageHandler(void) {
 					}
 					break;
 				case 0x08: 
-					status = cmdFileRead(address);
+					status = cmdFileClose(address);
 					if(status != STATUS_READY) {
 						retVal = (byte)(status + 0x80);
 					}
 					break;
 				case 0x09: 
-					status = cmdFileClose(address);
+					status = cmdFileRead(address);
+					if(status != STATUS_READY) {
+						retVal = (byte)(status + 0x80);
+					}
+					break;
+				case 0x0A: 
+					status = cmdFileSeek(address);
 					if(status != STATUS_READY) {
 						retVal = (byte)(status + 0x80);
 					}
@@ -520,6 +526,12 @@ int cmdFileOpen(unsigned int address) {
     return fileOpen((char *)editLine);
 }
 
+// Handle closing a file
+int cmdFileClose(unsigned int address) {
+    fileHandle.close();
+    return STATUS_READY;
+}
+
 // Handle reading from a file
 int cmdFileRead(unsigned int address) {
     int result;
@@ -530,10 +542,10 @@ int cmdFileRead(unsigned int address) {
     return result;
 }
 
-// Handle closing a file
-int cmdFileClose(unsigned int address) {
-    fileHandle.close();
-    return STATUS_READY;
+// Handle seeking in a file
+int cmdFileSeek(unsigned int address) {
+    unsigned long filePosition = cpeekL(address);
+    return fileHandle.seek(filePosition) ? STATUS_READY : STATUS_EOF;
 }
 
 /************************************************************************************************/
@@ -1302,6 +1314,10 @@ byte cpeek(unsigned int address) {
 
 unsigned int cpeekW(unsigned int address) {
   return (cpeek(address) | (cpeek(address+1) << 8));
+}
+
+unsigned long cpeekL(unsigned int address) {
+  return (((unsigned long)cpeek(address)) | (((unsigned long)cpeek(address+1)) << 8) | (((unsigned long)cpeek(address+2)) << 16) | (((unsigned long)cpeek(address+3)) << 24));
 }
 
 boolean cpeekStr(unsigned int address, volatile char * dest, int max) {
