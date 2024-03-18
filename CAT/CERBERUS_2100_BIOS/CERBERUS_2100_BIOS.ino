@@ -153,6 +153,7 @@ volatile bool cpurunning = false;			/** true = CPU is running, CAT should not us
 volatile bool interruptFlag = false;		/** true = Triggered by interrupt **/
 volatile bool fast = true;	/** true = 8 MHz CPU clock, false = 4 MHz CPU clock **/
  File cd;							/** Used by BASIC directory commands **/
+ File fileHandle;                   /** Used by file open command **/
 volatile bool expflag = false;
 void(* resetFunc) (void) = 0;       		/** Software reset fuction at address 0 **/
 
@@ -415,6 +416,24 @@ void messageHandler(void) {
 						retVal = (byte)(status + 0x80);
 					}
 					break;
+				case 0x07: 
+					status = cmdFileOpen(address);
+					if(status != STATUS_READY) {
+						retVal = (byte)(status + 0x80);
+					}
+					break;
+				case 0x08: 
+					status = cmdFileRead(address);
+					if(status != STATUS_READY) {
+						retVal = (byte)(status + 0x80);
+					}
+					break;
+				case 0x09: 
+					status = cmdFileClose(address);
+					if(status != STATUS_READY) {
+						retVal = (byte)(status + 0x80);
+					}
+					break;
         case 0x7E:
           cmdSoundNb(address);
           status = STATUS_READY;
@@ -493,6 +512,28 @@ int cmdCatEntry(unsigned int address) {		// Subsequent calls to this will read t
 	cpokeStr(address + 4, entry.name());	// Followed by the filename, zero terminated
 	entry.close();							// Close the directory entry
 	return STATUS_READY;					// Return READY
+}
+
+// Handle opening a file
+int cmdFileOpen(unsigned int address) {
+    cpeekStr(address, editLine, 38);
+    return fileOpen((char *)editLine);
+}
+
+// Handle reading from a file
+int cmdFileRead(unsigned int address) {
+    int result;
+    unsigned int startAddr = cpeekW(address);
+    unsigned int byteCount = cpeekW(address+2);
+    result = fileRead(startAddr, byteCount);
+    cpokeW(address+2, bytesRead);
+    return result;
+}
+
+// Handle closing a file
+int cmdFileClose(unsigned int address) {
+    fileHandle.close();
+    return STATUS_READY;
 }
 
 /************************************************************************************************/
@@ -939,6 +980,40 @@ int load(String filename, unsigned int startAddr) {
     }
   }
   return status;
+}
+
+int fileOpen(String filename)
+{
+    int status = STATUS_DEFAULT;
+    if (filename == "") {
+	    status = STATUS_MISSING_OPERAND;
+    } else {
+        if (!SD.exists(filename)) {
+            status = STATUS_NO_FILE;
+        } else {
+            fileHandle = SD.open(filename);
+            if (!fileHandle) {
+                status = STATUS_CANNOT_OPEN;
+            } else {
+                status = STATUS_READY;
+            }
+        }
+    }
+    return status;
+}
+
+int fileRead(unsigned int address, unsigned int byteCount)
+{
+    bytesRead = 0;
+    while (byteCount > 0 && fileHandle.available()) {   /** While we haven't read enough data and there is data to be read... **/
+        byteCount--;
+        bytesRead++;
+        cpoke(address++, fileHandle.read());   /** Read data from file and store it in memory **/
+        if (address == 0) {                    /** Break if address wraps around to the start of memory **/
+           	break;
+        }
+    }
+    return STATUS_READY;
 }
 
 void cprintEditLine () {
