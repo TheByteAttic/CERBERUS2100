@@ -572,6 +572,7 @@ void enter() {  /** Called when the user presses ENTER, unless a CPU program is 
     cprintStatus(STATUS_READY);
   /** RESET *********************************************************************************/
   } else if (nextWord == F("reset")) {
+    pinMode(SOUND, INPUT);  /** Avoids annoying beep upon software reset **/
     resetFunc();						  /** This resets CAT and, therefore, the CPUs too **/
   /** FAST **********************************************************************************/
   } else if (nextWord == F("fast")) {     /** Sets CPU clock at 8 MHz **/
